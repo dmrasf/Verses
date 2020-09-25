@@ -38,6 +38,8 @@ class HomeScreen extends StatelessWidget {
                 TitleAndSearch(),
                 TodayPoetryAndMore(),
                 PoetryCard(poetry: poe),
+                PoetryCard(poetry: poe),
+                PoetryCard(poetry: poe),
               ],
             ),
           ),

@@ -3,10 +3,22 @@ import 'package:Verses/contants.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
-class PoetryCard extends StatelessWidget {
-  const PoetryCard({Key key, @required this.poetry}) : super(key: key);
+class PoetryCard extends StatefulWidget {
+  PoetryCard({Key key, this.poetry}) : super(key: key);
 
   final Map<String, dynamic> poetry;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _PoetryCardState(poetry: this.poetry);
+  }
+}
+
+class _PoetryCardState extends State<PoetryCard> {
+  _PoetryCardState({Key key, @required this.poetry});
+
+  Map<String, dynamic> poetry;
+  bool isLike = false;
 
   List<InlineSpan> getContent() {
     List<InlineSpan> contents = List<InlineSpan>();
@@ -38,7 +50,15 @@ class PoetryCard extends StatelessWidget {
     return contents;
   }
 
-  void press() {}
+  void press() {
+    setState(() {
+      isLike = !isLike;
+    });
+
+    if (isLike) {
+      // TODO:
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +99,7 @@ class PoetryCard extends StatelessWidget {
                   "assets/icons/heart.svg",
                   height: 20,
                   width: 20,
+                  color: isLike ? Colors.red : Colors.white,
                 ),
               ),
             ],
