@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
 
 class TodayPoetryAndMore extends StatelessWidget {
+  void press() {}
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,7 +30,7 @@ class TodayPoetryAndMore extends StatelessWidget {
               ),
             ),
             color: kPirmaryColor,
-            onPressed: () {},
+            onPressed: press,
           ),
         ],
       ),

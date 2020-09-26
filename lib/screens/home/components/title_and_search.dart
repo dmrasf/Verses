@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:Verses/screens/search/search_screen.dart';
 
 class TitleAndSearch extends StatelessWidget {
   @override
@@ -53,7 +54,9 @@ class TitleAndSearch extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+              },
               child: Row(children: [
                 Text(
                   "Search",

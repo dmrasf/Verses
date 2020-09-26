@@ -1,26 +1,46 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:Verses/contants.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PoetryCard extends StatefulWidget {
-  PoetryCard({Key key, this.poetry}) : super(key: key);
-
-  final Map<String, dynamic> poetry;
+  PoetryCard({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _PoetryCardState(poetry: this.poetry);
+    return _PoetryCardState();
   }
 }
 
 class _PoetryCardState extends State<PoetryCard> {
-  _PoetryCardState({Key key, @required this.poetry});
+  _PoetryCardState({Key key}) {
+    poetry = _randomPoetry();
+  }
 
   Map<String, dynamic> poetry;
   bool isLike = false;
 
-  List<InlineSpan> getContent() {
+  Map<String, dynamic> _randomPoetry() {
+    String poetryJson =
+        '{ "题目": "红楼梦十二曲 收尾 其十四 飞鸟各投林", "朝代": "清", "作者": "曹雪芹", "内容": "为官的家业凋零，富贵的金银散尽。有恩的死里逃生，无情的分明报应。欠命的命已还，欠泪的泪已尽：冤冤相报自非轻，分离聚合皆前定。欲知命短问前生，老来富贵也真侥幸。看破的遁入空门，痴迷的枉送了性命。好一似食尽鸟投林，落了片白茫茫大地真干净！" }';
+    Map<String, dynamic> poe = json.decode(poetryJson);
+
+    return poe;
+  }
+
+  void press() {
+    setState(() {
+      isLike = !isLike;
+      poetry = _randomPoetry();
+    });
+
+    if (isLike) {
+      // TODO:
+    }
+  }
+
+  List<InlineSpan> _getContent() {
     List<InlineSpan> contents = List<InlineSpan>();
     String content = poetry["内容"];
     String pattern = "。：？；！";
@@ -50,16 +70,6 @@ class _PoetryCardState extends State<PoetryCard> {
     return contents;
   }
 
-  void press() {
-    setState(() {
-      isLike = !isLike;
-    });
-
-    if (isLike) {
-      // TODO:
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -78,18 +88,21 @@ class _PoetryCardState extends State<PoetryCard> {
                 text: TextSpan(
                   text: "${poetry['作者']}\n${poetry['朝代']}",
                   style: TextStyle(
-                    fontSize: 10,
-                    fontStyle: FontStyle.italic,
-                    color: Colors.grey,
+                    fontSize: 12,
+                    color: kTextColor,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               Spacer(),
-              Text(
-                "${poetry['题目']}",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              Container(
+                width: size.width * 0.5,
+                child: Text(
+                  "${poetry['题目']}",
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Spacer(),
@@ -109,7 +122,7 @@ class _PoetryCardState extends State<PoetryCard> {
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-                children: getContent(),
+                children: _getContent(),
               ),
             ),
           ),
