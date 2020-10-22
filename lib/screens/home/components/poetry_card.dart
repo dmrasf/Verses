@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:Verses/contants.dart';
-
+import 'dart:io';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PoetryCard extends StatefulWidget {
@@ -9,35 +9,58 @@ class PoetryCard extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _PoetryCardState();
+    return PoetryCardState();
   }
 }
 
-class _PoetryCardState extends State<PoetryCard> {
-  _PoetryCardState({Key key}) {
-    poetry = _randomPoetry();
-  }
-
-  Map<String, dynamic> poetry;
+class PoetryCardState extends State<PoetryCard> {
+  Map<String, dynamic> poetry = Map<String, dynamic>();
   bool isLike = false;
 
-  Map<String, dynamic> _randomPoetry() {
-    String poetryJson =
-        '{ "题目": "红楼梦十二曲 收尾 其十四 飞鸟各投林", "朝代": "清", "作者": "曹雪芹", "内容": "为官的家业凋零，富贵的金银散尽。有恩的死里逃生，无情的分明报应。欠命的命已还，欠泪的泪已尽：冤冤相报自非轻，分离聚合皆前定。欲知命短问前生，老来富贵也真侥幸。看破的遁入空门，痴迷的枉送了性命。好一似食尽鸟投林，落了片白茫茫大地真干净！" }';
-    Map<String, dynamic> poe = json.decode(poetryJson);
-
-    return poe;
+  @override
+  void initState() {
+    super.initState();
+    getPoetry(true);
   }
 
-  void press() {
+  // 获取每天随机的诗词
+  void getPoetry(bool isDay) async {
+    var httpClient = HttpClient();
+    var url = urlPoetry + 'randomDay';
+    print(url);
+    if (!isDay) {
+      url = urlPoetry + 'random';
+    }
+    bool result = false;
+    var todayPoetry;
+
+    try {
+      var request = await httpClient.getUrl(Uri.parse(url));
+      var response = await request.close();
+      if (response.statusCode == 200) {
+        var poetryResult = await response.transform(utf8.decoder).join();
+        todayPoetry = json.decode(poetryResult);
+        result = true;
+      } else {
+        result = false;
+      }
+    } catch (exception) {
+      result = false;
+    }
+
+    // 如果成功
+    if (result && todayPoetry.length > 0) {
+      setState(() {
+        this.poetry = todayPoetry[0];
+      });
+    }
+  }
+
+  // 收藏诗词
+  void _collection() {
     setState(() {
       isLike = !isLike;
-      poetry = _randomPoetry();
     });
-
-    if (isLike) {
-      // TODO:
-    }
   }
 
   List<InlineSpan> _getContent() {
@@ -73,6 +96,10 @@ class _PoetryCardState extends State<PoetryCard> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    // 如果没有诗词不显示卡片
+    if (this.poetry.isEmpty) {
+      return Container();
+    }
     return Container(
       margin: EdgeInsets.only(bottom: kDefaultPadding * 0.5),
       padding: EdgeInsets.symmetric(
@@ -107,7 +134,7 @@ class _PoetryCardState extends State<PoetryCard> {
               ),
               Spacer(),
               IconButton(
-                onPressed: press,
+                onPressed: _collection,
                 icon: SvgPicture.asset(
                   "assets/icons/heart.svg",
                   height: 20,

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
+import 'package:Verses/screens/home/components/home_communication.dart';
 
 class TodayPoetryAndMore extends StatelessWidget {
-  void press() {}
+  void _press() {
+    // 使用global key 进行组件间通信
+    keyValue.currentState.getPoetry(false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class TodayPoetryAndMore extends StatelessWidget {
               ),
             ),
             color: kPirmaryColor,
-            onPressed: press,
+            onPressed: _press,
           ),
         ],
       ),
