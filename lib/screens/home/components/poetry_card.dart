@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:Verses/contants.dart';
 import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PoetryCard extends StatefulWidget {
@@ -50,14 +51,40 @@ class PoetryCardState extends State<PoetryCard> {
 
     // 如果成功
     if (result && todayPoetry.length > 0) {
+      isLike = _isLike(todayPoetry[0]);
       setState(() {
         this.poetry = todayPoetry[0];
       });
     }
   }
 
+  // 判断诗词是否已经收藏
+  bool _isLike(Map<String, dynamic> poe) {
+    return false;
+  }
+
   // 收藏诗词
-  void _collection() {
+  void _collection() async {
+    // 读取保存的文件
+    String dirStr = (await getExternalStorageDirectory()).path;
+    String fileName = "like.json";
+    File file = File('$dirStr/$fileName');
+
+    if (!file.existsSync()) {
+      file.createSync();
+
+      File file1 = await file.writeAsString("dew");
+      if (file1.existsSync()) {
+        print("save success");
+      }
+    }
+
+    if (isLike) {
+      // 从收藏删除
+    } else {
+      // 添加到收藏
+    }
+
     setState(() {
       isLike = !isLike;
     });

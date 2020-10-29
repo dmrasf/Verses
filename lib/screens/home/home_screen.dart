@@ -58,31 +58,18 @@ class HomeScreen extends StatelessWidget {
 
   // 从服务器下载诗词数据
   void _downloadPoetry() async {
-    /* 获取文件名html
-
-
-       解析html
-
-       for 每个文件名
-         判断是否已有本地文件
-         if true
-           continue
-         else 
-           下载到本地    
-       endfor
-
-       提示用户下载完成 */
-
     var httpClient = HttpClient();
-    var url = 'http://207.246.94.85:8084';
+    var url = 'http://207.246.94.85:8084/files.json';
     bool result = false;
+    var files;
 
     try {
       var request = await httpClient.getUrl(Uri.parse(url));
       var response = await request.close();
       print(response.statusCode);
       if (response.statusCode == HttpStatus.ok) {
-        var htmlResult = await response.transform(utf8.decoder).join();
+        var filesResult = await response.transform(utf8.decoder).join();
+        files = json.decode(filesResult);
         result = true;
       } else {
         result = false;
@@ -93,35 +80,46 @@ class HomeScreen extends StatelessWidget {
 
     // 如果获取到文件名
     if (result) {
-      List<String> fileNames = List<String>();
-
-      for (var i = 0, len = fileNames.length; i < len; ++i) {
-        _saveFile(fileNames[i]).then((r) => {if (r) {} else {}});
+      for (var i = 0, len = files.length; i < len; ++i) {
+        await _saveFile(files[i]).then((r) => {if (r) {} else {}});
       }
     }
   }
 
   // 根据解析到的html 文件名判断并保存
   Future<bool> _saveFile(String fileName) async {
-    var httpClient = HttpClient();
-    var url = 'http://207.246.94.85:8084/' + fileName;
+    // 判断文件是否存在
+    String dirStr = (await getExternalStorageDirectory()).path;
+
+    File file = File('$dirStr/$fileName');
     bool result = false;
 
-    try {
-      var request = await httpClient.getUrl(Uri.parse(url));
-      var response = await request.close();
-      print(response.statusCode);
-      if (response.statusCode == HttpStatus.ok) {
-        var jsonR = await response.transform(utf8.decoder).join();
-        var data = json.decode(jsonR);
-        result = true;
-      } else {
+    if (!file.existsSync()) {
+      file.createSync();
+      print("$fileName not exit");
+
+      // 不存在进行下载操作
+      var httpClient = HttpClient();
+      var url = 'http://207.246.94.85:8084/' + fileName;
+      try {
+        var request = await httpClient.getUrl(Uri.parse(url));
+        var response = await request.close();
+        print(response.statusCode);
+        if (response.statusCode == HttpStatus.ok) {
+          var jsonR = await response.transform(utf8.decoder).join();
+          File file1 = await file.writeAsString(jsonR);
+          if (file1.existsSync()) {
+            print("save success");
+            result = true;
+          }
+        } else {
+          result = false;
+        }
+      } catch (exception) {
         result = false;
       }
-    } catch (exception) {
-      result = false;
-    }
-
+    } else
+      print("exit");
     return result;
   }
 }

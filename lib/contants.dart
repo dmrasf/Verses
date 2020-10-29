@@ -6,4 +6,4 @@ const kBackgroundColor = Color(0xFFF9F8FD);
 
 const double kDefaultPadding = 20.0;
 
-const String urlPoetry = "http://192.168.43.128:8888/poetry/";
+const String urlPoetry = "http://103.210.23.176:7777/poetry/";
