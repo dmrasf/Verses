@@ -4,14 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchPoetry extends StatelessWidget {
   final TextEditingController myControllerAuthor;
-  final TextEditingController myControllerDynasity;
+  final TextEditingController myControllerDynasty;
   final TextEditingController myControllerTitle;
   final TextEditingController myControllerContent;
 
   const SearchPoetry({
     Key key,
     this.myControllerAuthor,
-    this.myControllerDynasity,
+    this.myControllerDynasty,
     this.myControllerTitle,
     this.myControllerContent,
   }) : super(key: key);
@@ -34,7 +34,7 @@ class SearchPoetry extends StatelessWidget {
         ),
         TextFieldContainer(
           child: TextField(
-            controller: myControllerDynasity,
+            controller: myControllerDynasty,
             decoration: InputDecoration(
               hintText: "朝代",
               hintStyle: TextStyle(

@@ -5,7 +5,7 @@ import 'package:Verses/screens/search/components/search_and_poetry.dart';
 
 class SearchScreen extends StatelessWidget {
   final TextEditingController myControllerAuthor = TextEditingController();
-  final TextEditingController myControllerDynasity = TextEditingController();
+  final TextEditingController myControllerDynasty = TextEditingController();
   final TextEditingController myControllerTitle = TextEditingController();
   final TextEditingController myControllerContent = TextEditingController();
 
@@ -18,7 +18,7 @@ class SearchScreen extends StatelessWidget {
           children: [
             SearchPoetry(
               myControllerAuthor: myControllerAuthor,
-              myControllerDynasity: myControllerDynasity,
+              myControllerDynasty: myControllerDynasty,
               myControllerTitle: myControllerTitle,
               myControllerContent: myControllerContent,
             ),
@@ -37,7 +37,7 @@ class SearchScreen extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => ResultScreen(
                             authorString: myControllerAuthor.text,
-                            dynasityString: myControllerDynasity.text,
+                            dynastyString: myControllerDynasty.text,
                             titleString: myControllerTitle.text,
                             contentString: myControllerContent.text)));
               },
