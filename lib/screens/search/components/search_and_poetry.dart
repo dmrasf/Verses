@@ -7,6 +7,10 @@ class SearchPoetry extends StatelessWidget {
   final TextEditingController myControllerDynasty;
   final TextEditingController myControllerTitle;
   final TextEditingController myControllerContent;
+  final FocusNode myFocusNodeAuthor;
+  final FocusNode myFocusNodeDynasty;
+  final FocusNode myFocusNodeTitle;
+  final FocusNode myFocusNodeContent;
 
   const SearchPoetry({
     Key key,
@@ -14,6 +18,10 @@ class SearchPoetry extends StatelessWidget {
     this.myControllerDynasty,
     this.myControllerTitle,
     this.myControllerContent,
+    this.myFocusNodeAuthor,
+    this.myFocusNodeDynasty,
+    this.myFocusNodeTitle,
+    this.myFocusNodeContent,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -22,6 +30,7 @@ class SearchPoetry extends StatelessWidget {
         TextFieldContainer(
           child: TextField(
             controller: myControllerAuthor,
+            focusNode: myFocusNodeAuthor,
             decoration: InputDecoration(
               hintText: "作者",
               hintStyle: TextStyle(
@@ -35,6 +44,7 @@ class SearchPoetry extends StatelessWidget {
         TextFieldContainer(
           child: TextField(
             controller: myControllerDynasty,
+            focusNode: myFocusNodeDynasty,
             decoration: InputDecoration(
               hintText: "朝代",
               hintStyle: TextStyle(
@@ -48,6 +58,7 @@ class SearchPoetry extends StatelessWidget {
         TextFieldContainer(
           child: TextField(
             controller: myControllerTitle,
+            focusNode: myFocusNodeTitle,
             decoration: InputDecoration(
               hintText: "题目",
               hintStyle: TextStyle(
@@ -61,6 +72,7 @@ class SearchPoetry extends StatelessWidget {
         TextFieldContainer(
           child: TextField(
             controller: myControllerContent,
+            focusNode: myFocusNodeContent,
             decoration: InputDecoration(
               hintText: "内容",
               hintStyle: TextStyle(

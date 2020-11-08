@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:Verses/contants.dart';
+import 'package:Verses/utils.dart';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PoetryCard extends StatefulWidget {
@@ -51,73 +51,19 @@ class PoetryCardState extends State<PoetryCard> {
 
     // 如果成功
     if (result && todayPoetry.length > 0) {
-      isLike = _isLike(todayPoetry[0]);
+      // 将红心变成红色
+      this.isLike = (await isPoetryCollection(todayPoetry[0]))[0];
       setState(() {
         this.poetry = todayPoetry[0];
       });
     }
   }
 
-  // 判断诗词是否已经收藏
-  bool _isLike(Map<String, dynamic> poe) {
-    return false;
-  }
-
   // 收藏诗词
-  void _collection() async {
+  void _pressCol() async {
     // 读取保存的文件
-    String dirStr = (await getExternalStorageDirectory()).path;
-    String fileName = "like.json";
-    File file = File('$dirStr/$fileName');
-
-    if (!file.existsSync()) {
-      file.createSync();
-
-      File file1 = await file.writeAsString("dew");
-      if (file1.existsSync()) {
-        print("save success");
-      }
-    }
-
-    if (isLike) {
-      // 从收藏删除
-    } else {
-      // 添加到收藏
-    }
-
-    setState(() {
-      isLike = !isLike;
-    });
-  }
-
-  List<InlineSpan> _getContent() {
-    List<InlineSpan> contents = List<InlineSpan>();
-    String content = poetry["内容"];
-    String pattern = "。：？；！";
-    List<String> lines = List<String>();
-    String line = "";
-
-    for (var i = 0, len = content.length; i < len; ++i) {
-      if (pattern.contains(content[i])) {
-        lines.add(line + content[i] + "\n");
-        line = "";
-      } else {
-        line = line + content[i];
-      }
-    }
-
-    for (var i = 0, len = lines.length; i < len; ++i) {
-      contents.add(TextSpan(
-        text: lines[i],
-        style: TextStyle(
-          color: kTextColor,
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
-        ),
-      ));
-    }
-
-    return contents;
+    this.isLike = await collectionToggle(this.poetry);
+    setState(() {});
   }
 
   @override
@@ -161,7 +107,7 @@ class PoetryCardState extends State<PoetryCard> {
               ),
               Spacer(),
               IconButton(
-                onPressed: _collection,
+                onPressed: _pressCol,
                 icon: SvgPicture.asset(
                   "assets/icons/heart.svg",
                   height: 20,
@@ -176,7 +122,7 @@ class PoetryCardState extends State<PoetryCard> {
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-                children: _getContent(),
+                children: getContent(this.poetry),
               ),
             ),
           ),

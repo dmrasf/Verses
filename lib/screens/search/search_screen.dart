@@ -8,6 +8,10 @@ class SearchScreen extends StatelessWidget {
   final TextEditingController myControllerDynasty = TextEditingController();
   final TextEditingController myControllerTitle = TextEditingController();
   final TextEditingController myControllerContent = TextEditingController();
+  final FocusNode myFocusNodeAuthor = FocusNode();
+  final FocusNode myFocusNodeDynasty = FocusNode();
+  final FocusNode myFocusNodeTitle = FocusNode();
+  final FocusNode myFocusNodeContent = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,10 @@ class SearchScreen extends StatelessWidget {
               myControllerDynasty: myControllerDynasty,
               myControllerTitle: myControllerTitle,
               myControllerContent: myControllerContent,
+              myFocusNodeAuthor: myFocusNodeAuthor,
+              myFocusNodeDynasty: myFocusNodeDynasty,
+              myFocusNodeTitle: myFocusNodeTitle,
+              myFocusNodeContent: myFocusNodeContent,
             ),
             FlatButton(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -32,6 +40,10 @@ class SearchScreen extends StatelessWidget {
               ),
               color: kPirmaryColor,
               onPressed: () {
+                myFocusNodeAuthor.unfocus();
+                myFocusNodeDynasty.unfocus();
+                myFocusNodeTitle.unfocus();
+                myFocusNodeContent.unfocus();
                 Navigator.push(
                     context,
                     MaterialPageRoute(
