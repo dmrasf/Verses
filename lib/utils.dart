@@ -48,8 +48,8 @@ Future<bool> collectionToggle(Map<String, dynamic> poetry) async {
     // 如果文件不存在 创建
     var cfile = await file.create();
     // 把诗词内容保存到其中
-    print(poetry.toString());
-    File wfile = await cfile.writeAsString(poetry.toString());
+    print(jsonEncode(poetry));
+    File wfile = await cfile.writeAsString(jsonEncode(poetry));
     if (wfile.existsSync()) {
       return true;
     } else {
@@ -74,4 +74,22 @@ Future<List> isPoetryCollection(Map<String, dynamic> poetry) async {
   } else {
     return [true, fileName];
   }
+}
+
+Future<List<Map<String, dynamic>>> getCollection() async {
+  List<Map<String, dynamic>> poetries = [];
+  // 读取保存的文件
+  String dirStr = (await getExternalStorageDirectory()).path;
+  Directory dir = Directory(dirStr);
+
+  // 对每个文件操作
+  List<FileSystemEntity> files = dir.listSync(recursive: true);
+  for (final f in files) {
+    File file = File(f.path);
+    String poeStr = await file.readAsString();
+    var poetry = jsonDecode(poeStr);
+    poetries.add(poetry);
+  }
+
+  return poetries;
 }

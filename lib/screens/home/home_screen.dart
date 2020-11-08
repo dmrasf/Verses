@@ -4,16 +4,15 @@ import 'package:Verses/screens/home/components/poetry_card.dart';
 import 'package:Verses/screens/home/components/home_communication.dart';
 import 'package:Verses/screens/home/components/today_and_more.dart';
 import 'package:Verses/screens/home/components/icon_theme.dart';
+import 'package:Verses/screens/result/components/poetry_list_and_item.dart';
+import 'package:Verses/utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'dart:convert';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _buildAppBar(),
+        appBar: _buildAppBar(context),
         body: SingleChildScrollView(
           child: Container(
             child: Column(
@@ -27,13 +26,23 @@ class HomeScreen extends StatelessWidget {
         ));
   }
 
-  AppBar _buildAppBar() {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       leading: IconButton(
         iconSize: 8,
-        // 打开收藏
-        onPressed: () {},
+        onPressed: () async {
+          // 打开收藏的诗词
+          List<Map<String, dynamic>> poetries = await getCollection();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CollentionListView(
+                poetries: poetries,
+              ),
+            ),
+          );
+        },
         icon: SvgPicture.asset(
           "assets/icons/heart.svg",
           height: 20,
@@ -41,18 +50,23 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       actions: [
-        //IconButton(
-        //iconSize: 8,
-        //onPressed: _downloadPoetry,
-        //icon: SvgPicture.asset(
-        //"assets/icons/download.svg",
-        //height: 20,
-        //width: 20,
-        //color: Colors.black,
-        //),
-        //),
         IconChangeTheme(),
       ],
+    );
+  }
+}
+
+class CollentionListView extends StatelessWidget {
+  final List<Map<String, dynamic>> poetries;
+
+  CollentionListView({Key key, this.poetries}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: this.poetries.length,
+      itemBuilder: (context, index) {
+        return PoetryListItem(poetry: this.poetries[index]);
+      },
     );
   }
 }
