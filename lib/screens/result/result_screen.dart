@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:Verses/contants.dart';
 import 'dart:io';
-import 'package:Verses/screens/result/components/poetry_list_and_item.dart';
+import 'package:Verses/components/poetry_list_and_item.dart';
+import 'package:Verses/screens/result/components/poetry_item_show.dart';
 import 'package:Verses/screens/result/components/search_remind.dart';
 
 class ResultScreen extends StatefulWidget {
@@ -105,7 +106,10 @@ class ResultScreenState extends State<ResultScreen> {
         this.poetries.add(searchPoetry[i]);
       }
       setState(() {
-        this.body = PoetryListView(poetries: this.poetries);
+        this.body = PoetryListView(
+          poetries: this.poetries,
+          poetryItem: (poetry) => PoetryItemShow(poetry: poetry),
+        );
       });
     } else if (result) {
       // 显示未查询到结果

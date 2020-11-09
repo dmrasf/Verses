@@ -9,15 +9,15 @@ class PoetryItemShow extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return PoetryItemShowState(poetry: this.poetry);
+    return _PoetryItemShowState(poetry: this.poetry);
   }
 }
 
-class PoetryItemShowState extends State<PoetryItemShow> {
+class _PoetryItemShowState extends State<PoetryItemShow> {
   final Map<String, dynamic> poetry;
   bool isLike = false;
 
-  PoetryItemShowState({Key key, this.poetry});
+  _PoetryItemShowState({Key key, this.poetry});
 
   @override
   void initState() {

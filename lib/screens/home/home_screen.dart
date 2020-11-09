@@ -4,7 +4,8 @@ import 'package:Verses/screens/home/components/poetry_card.dart';
 import 'package:Verses/screens/home/components/home_communication.dart';
 import 'package:Verses/screens/home/components/today_and_more.dart';
 import 'package:Verses/screens/home/components/icon_theme.dart';
-import 'package:Verses/screens/result/components/poetry_list_and_item.dart';
+import 'package:Verses/components/poetry_list_and_item.dart';
+import 'package:Verses/screens/home/components/poetry_item_show_col.dart';
 import 'package:Verses/utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -37,8 +38,11 @@ class HomeScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CollentionListView(
-                poetries: poetries,
+              builder: (context) => Scaffold(
+                body: PoetryListView(
+                  poetries: poetries,
+                  poetryItem: (poetry) => PoetryItemShowForCol(poetry: poetry),
+                ),
               ),
             ),
           );

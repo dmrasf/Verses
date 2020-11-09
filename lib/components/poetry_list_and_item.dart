@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
-import 'package:Verses/screens/result/components/poetry_item_show.dart';
 
 class PoetryListView extends StatelessWidget {
   final List<Map<String, dynamic>> poetries;
+  final Function poetryItem;
 
-  PoetryListView({Key key, this.poetries}) : super(key: key);
+  PoetryListView({Key key, this.poetries, this.poetryItem}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -13,6 +13,7 @@ class PoetryListView extends StatelessWidget {
       itemBuilder: (context, index) {
         return PoetryListItem(
           poetry: this.poetries[index],
+          poetryItem: this.poetryItem,
         );
       },
     );
@@ -21,8 +22,9 @@ class PoetryListView extends StatelessWidget {
 
 class PoetryListItem extends StatelessWidget {
   final Map<String, dynamic> poetry;
+  final Function poetryItem;
 
-  PoetryListItem({Key key, this.poetry}) : super(key: key);
+  PoetryListItem({Key key, this.poetry, this.poetryItem}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -49,7 +51,7 @@ class PoetryListItem extends StatelessWidget {
         print(this.poetry);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PoetryItemShow(poetry: this.poetry)),
+          MaterialPageRoute(builder: (context) => poetryItem(this.poetry)),
         );
       },
     );
