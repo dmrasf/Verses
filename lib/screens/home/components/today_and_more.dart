@@ -20,7 +20,7 @@ class TodayPoetryAndMore extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: kDefaultPadding / 4),
             child: Text(
-              "Today Poetry",
+              VersesLocalizations.of(context).todayPoetry,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
@@ -28,7 +28,7 @@ class TodayPoetryAndMore extends StatelessWidget {
           FlatButton(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Text(
-              "Change",
+              VersesLocalizations.of(context).change,
               style: TextStyle(
                 color: Colors.white,
               ),

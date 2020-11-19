@@ -32,7 +32,7 @@ class SearchPoetry extends StatelessWidget {
             controller: myControllerAuthor,
             focusNode: myFocusNodeAuthor,
             decoration: InputDecoration(
-              hintText: "作者",
+              hintText: VersesLocalizations.of(context).author,
               hintStyle: TextStyle(
                 color: Colors.black,
               ),
@@ -46,7 +46,7 @@ class SearchPoetry extends StatelessWidget {
             controller: myControllerDynasty,
             focusNode: myFocusNodeDynasty,
             decoration: InputDecoration(
-              hintText: "朝代",
+              hintText: VersesLocalizations.of(context).dynasty,
               hintStyle: TextStyle(
                 color: Colors.black,
               ),
@@ -60,7 +60,7 @@ class SearchPoetry extends StatelessWidget {
             controller: myControllerTitle,
             focusNode: myFocusNodeTitle,
             decoration: InputDecoration(
-              hintText: "题目",
+              hintText: VersesLocalizations.of(context).title,
               hintStyle: TextStyle(
                 color: Colors.black,
               ),
@@ -74,7 +74,7 @@ class SearchPoetry extends StatelessWidget {
             controller: myControllerContent,
             focusNode: myFocusNodeContent,
             decoration: InputDecoration(
-              hintText: "内容",
+              hintText: VersesLocalizations.of(context).content,
               hintStyle: TextStyle(
                 color: Colors.black,
               ),

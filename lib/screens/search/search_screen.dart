@@ -33,7 +33,7 @@ class SearchScreen extends StatelessWidget {
             FlatButton(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               child: Text(
-                "Search",
+                VersesLocalizations.of(context).search,
                 style: TextStyle(
                   color: Colors.white,
                 ),

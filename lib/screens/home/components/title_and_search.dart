@@ -33,7 +33,7 @@ class TitleAndSearch extends StatelessWidget {
           bottom: size.width * 0.28,
           child: Center(
             child: Text(
-              'Search Verses',
+              VersesLocalizations.of(context).heading,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
@@ -59,7 +59,7 @@ class TitleAndSearch extends StatelessWidget {
               },
               child: Row(children: [
                 Text(
-                  "Search",
+                  VersesLocalizations.of(context).search,
                   style: TextStyle(
                     fontSize: 15,
                   ),

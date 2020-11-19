@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
 import 'package:Verses/screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -21,6 +21,17 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Verses',
             debugShowCheckedModeBanner: false,
+            localizationsDelegates: [
+              const VersesLocalizationsDelegate(),
+              // 本地化字符串
+              GlobalMaterialLocalizations.delegate,
+              // widget 文本默认方向
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: [
+              const Locale('zh', 'CN'),
+              const Locale('en', 'US'),
+            ],
             theme: ThemeData(
               scaffoldBackgroundColor: themeColor[themeId]["backgroundColor"],
               primaryColor: themeColor[themeId]["primaryColor"],
