@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
+import 'package:Verses/screens/search/components/text_and_drop_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchPoetry extends StatelessWidget {
@@ -23,6 +24,7 @@ class SearchPoetry extends StatelessWidget {
     this.myFocusNodeTitle,
     this.myFocusNodeContent,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,84 +33,42 @@ class SearchPoetry extends StatelessWidget {
           child: TextField(
             controller: myControllerAuthor,
             focusNode: myFocusNodeAuthor,
-            decoration: InputDecoration(
-              hintText: VersesLocalizations.of(context).author,
-              hintStyle: TextStyle(
-                color: Colors.black,
-              ),
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-            ),
+            decoration: getInputDec(VersesLocalizations.of(context).author),
           ),
         ),
+        DropContainer(),
         TextFieldContainer(
           child: TextField(
             controller: myControllerDynasty,
             focusNode: myFocusNodeDynasty,
-            decoration: InputDecoration(
-              hintText: VersesLocalizations.of(context).dynasty,
-              hintStyle: TextStyle(
-                color: Colors.black,
-              ),
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-            ),
+            decoration: getInputDec(VersesLocalizations.of(context).dynasty),
           ),
         ),
         TextFieldContainer(
           child: TextField(
             controller: myControllerTitle,
             focusNode: myFocusNodeTitle,
-            decoration: InputDecoration(
-              hintText: VersesLocalizations.of(context).title,
-              hintStyle: TextStyle(
-                color: Colors.black,
-              ),
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-            ),
+            decoration: getInputDec(VersesLocalizations.of(context).title),
           ),
         ),
         TextFieldContainer(
           child: TextField(
             controller: myControllerContent,
             focusNode: myFocusNodeContent,
-            decoration: InputDecoration(
-              hintText: VersesLocalizations.of(context).content,
-              hintStyle: TextStyle(
-                color: Colors.black,
-              ),
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-            ),
+            decoration: getInputDec(VersesLocalizations.of(context).content),
           ),
         ),
       ],
     );
   }
-}
 
-class TextFieldContainer extends StatelessWidget {
-  final Widget child;
-
-  const TextFieldContainer({
-    Key key,
-    this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      height: size.height * 0.08,
-      width: size.width * 0.8,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(29),
-      ),
-      child: this.child,
+  // 修饰搜索框
+  InputDecoration getInputDec(String hintStr) {
+    return InputDecoration(
+      hintText: hintStr,
+      hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+      enabledBorder: InputBorder.none,
+      focusedBorder: InputBorder.none,
     );
   }
 }
