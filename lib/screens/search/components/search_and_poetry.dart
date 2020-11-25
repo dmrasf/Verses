@@ -32,6 +32,7 @@ class SearchPoetry extends StatelessWidget {
           child: TextField(
             controller: myControllerAuthor,
             focusNode: myFocusNodeAuthor,
+            style: TextStyle(textBaseline: TextBaseline.alphabetic),
             decoration: getInputDec(VersesLocalizations.of(context).author, myControllerAuthor),
           ),
         ),
@@ -40,6 +41,7 @@ class SearchPoetry extends StatelessWidget {
           child: TextField(
             controller: myControllerTitle,
             focusNode: myFocusNodeTitle,
+            style: TextStyle(textBaseline: TextBaseline.alphabetic),
             decoration: getInputDec(VersesLocalizations.of(context).title, myControllerTitle),
           ),
         ),
@@ -47,6 +49,7 @@ class SearchPoetry extends StatelessWidget {
           child: TextField(
             controller: myControllerContent,
             focusNode: myFocusNodeContent,
+            style: TextStyle(textBaseline: TextBaseline.alphabetic),
             decoration: getInputDec(VersesLocalizations.of(context).content, myControllerContent),
           ),
         ),
@@ -62,8 +65,10 @@ class SearchPoetry extends StatelessWidget {
       enabledBorder: InputBorder.none,
       focusedBorder: InputBorder.none,
       suffixIcon: IconButton(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         onPressed: () => controller.clear(),
-        icon: SvgPicture.asset("assets/icons/clear.svg", height: 15, width: 15, color: Colors.grey),
+        icon: SvgPicture.asset("assets/icons/clear.svg", height: 10, width: 10, color: Colors.grey),
       ),
     );
   }

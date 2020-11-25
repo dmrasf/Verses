@@ -14,14 +14,16 @@ class TextFieldContainer extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       height: size.height * 0.08,
       width: size.width * 0.8,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(29),
       ),
-      child: this.child,
+      child: Center(
+        child: this.child,
+      ),
     );
   }
 }
@@ -42,21 +44,12 @@ class _DropContainerState extends State<DropContainer> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     widget.setDynasty(dropdownValue);
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      height: size.height * 0.08,
-      width: size.width * 0.8,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(29),
-      ),
+    return TextFieldContainer(
       child: DropdownButton<String>(
         value: dropdownValue,
         isExpanded: true,
-        style: TextStyle(color: Colors.deepPurple),
+        style: TextStyle(color: Colors.deepPurple, textBaseline: TextBaseline.alphabetic),
         underline: Container(
           height: 0,
         ),

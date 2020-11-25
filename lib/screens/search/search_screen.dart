@@ -44,7 +44,6 @@ class SearchScreen extends StatelessWidget {
                 myFocusNodeAuthor.unfocus();
                 myFocusNodeTitle.unfocus();
                 myFocusNodeContent.unfocus();
-                print(dynasty);
                 Navigator.push(
                     context,
                     MaterialPageRoute(

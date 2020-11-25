@@ -54,6 +54,8 @@ class TitleAndSearch extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: FlatButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
               },
