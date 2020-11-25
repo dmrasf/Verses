@@ -32,7 +32,7 @@ class SearchPoetry extends StatelessWidget {
           child: TextField(
             controller: myControllerAuthor,
             focusNode: myFocusNodeAuthor,
-            decoration: getInputDec(VersesLocalizations.of(context).author),
+            decoration: getInputDec(VersesLocalizations.of(context).author, myControllerAuthor),
           ),
         ),
         DropContainer(setDynasty: setDynasty),
@@ -40,14 +40,14 @@ class SearchPoetry extends StatelessWidget {
           child: TextField(
             controller: myControllerTitle,
             focusNode: myFocusNodeTitle,
-            decoration: getInputDec(VersesLocalizations.of(context).title),
+            decoration: getInputDec(VersesLocalizations.of(context).title, myControllerTitle),
           ),
         ),
         TextFieldContainer(
           child: TextField(
             controller: myControllerContent,
             focusNode: myFocusNodeContent,
-            decoration: getInputDec(VersesLocalizations.of(context).content),
+            decoration: getInputDec(VersesLocalizations.of(context).content, myControllerContent),
           ),
         ),
       ],
@@ -55,12 +55,16 @@ class SearchPoetry extends StatelessWidget {
   }
 
   // 修饰搜索框
-  InputDecoration getInputDec(String hintStr) {
+  InputDecoration getInputDec(String hintStr, TextEditingController controller) {
     return InputDecoration(
       hintText: hintStr,
       hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
       enabledBorder: InputBorder.none,
       focusedBorder: InputBorder.none,
+      suffixIcon: IconButton(
+        onPressed: () => controller.clear(),
+        icon: SvgPicture.asset("assets/icons/clear.svg", height: 15, width: 15, color: Colors.grey),
+      ),
     );
   }
 }
