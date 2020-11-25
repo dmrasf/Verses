@@ -27,7 +27,9 @@ class TextFieldContainer extends StatelessWidget {
 }
 
 class DropContainer extends StatefulWidget {
-  DropContainer({Key key}) : super(key: key);
+  final Function setDynasty;
+
+  DropContainer({Key key, this.setDynasty}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -41,6 +43,7 @@ class _DropContainerState extends State<DropContainer> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    widget.setDynasty(dropdownValue);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -52,13 +55,10 @@ class _DropContainerState extends State<DropContainer> {
       ),
       child: DropdownButton<String>(
         value: dropdownValue,
-        icon: Icon(Icons.arrow_downward),
-        iconSize: 24,
-        elevation: 16,
+        isExpanded: true,
         style: TextStyle(color: Colors.deepPurple),
         underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
+          height: 0,
         ),
         onChanged: (String newValue) {
           setState(() {

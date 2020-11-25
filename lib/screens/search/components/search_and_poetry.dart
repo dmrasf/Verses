@@ -5,24 +5,23 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchPoetry extends StatelessWidget {
   final TextEditingController myControllerAuthor;
-  final TextEditingController myControllerDynasty;
   final TextEditingController myControllerTitle;
   final TextEditingController myControllerContent;
   final FocusNode myFocusNodeAuthor;
-  final FocusNode myFocusNodeDynasty;
   final FocusNode myFocusNodeTitle;
   final FocusNode myFocusNodeContent;
+
+  final Function setDynasty;
 
   const SearchPoetry({
     Key key,
     this.myControllerAuthor,
-    this.myControllerDynasty,
     this.myControllerTitle,
     this.myControllerContent,
     this.myFocusNodeAuthor,
-    this.myFocusNodeDynasty,
     this.myFocusNodeTitle,
     this.myFocusNodeContent,
+    this.setDynasty,
   }) : super(key: key);
 
   @override
@@ -36,14 +35,7 @@ class SearchPoetry extends StatelessWidget {
             decoration: getInputDec(VersesLocalizations.of(context).author),
           ),
         ),
-        DropContainer(),
-        TextFieldContainer(
-          child: TextField(
-            controller: myControllerDynasty,
-            focusNode: myFocusNodeDynasty,
-            decoration: getInputDec(VersesLocalizations.of(context).dynasty),
-          ),
-        ),
+        DropContainer(setDynasty: setDynasty),
         TextFieldContainer(
           child: TextField(
             controller: myControllerTitle,

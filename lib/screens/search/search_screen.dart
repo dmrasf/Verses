@@ -5,30 +5,31 @@ import 'package:Verses/screens/search/components/search_and_poetry.dart';
 
 class SearchScreen extends StatelessWidget {
   final TextEditingController myControllerAuthor = TextEditingController();
-  final TextEditingController myControllerDynasty = TextEditingController();
   final TextEditingController myControllerTitle = TextEditingController();
   final TextEditingController myControllerContent = TextEditingController();
   final FocusNode myFocusNodeAuthor = FocusNode();
-  final FocusNode myFocusNodeDynasty = FocusNode();
   final FocusNode myFocusNodeTitle = FocusNode();
   final FocusNode myFocusNodeContent = FocusNode();
+  String dynasty = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SearchPoetry(
               myControllerAuthor: myControllerAuthor,
-              myControllerDynasty: myControllerDynasty,
               myControllerTitle: myControllerTitle,
               myControllerContent: myControllerContent,
               myFocusNodeAuthor: myFocusNodeAuthor,
-              myFocusNodeDynasty: myFocusNodeDynasty,
               myFocusNodeTitle: myFocusNodeTitle,
               myFocusNodeContent: myFocusNodeContent,
+              setDynasty: (value) {
+                this.dynasty = value;
+              },
             ),
             FlatButton(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -41,15 +42,15 @@ class SearchScreen extends StatelessWidget {
               color: kPirmaryColor,
               onPressed: () {
                 myFocusNodeAuthor.unfocus();
-                myFocusNodeDynasty.unfocus();
                 myFocusNodeTitle.unfocus();
                 myFocusNodeContent.unfocus();
+                print(dynasty);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ResultScreen(
                             authorString: myControllerAuthor.text,
-                            dynastyString: myControllerDynasty.text,
+                            dynastyString: this.dynasty,
                             titleString: myControllerTitle.text,
                             contentString: myControllerContent.text)));
               },
