@@ -45,8 +45,8 @@ class VersesLocalizations {
       'change': 'Change',
       'author': 'Author',
       'dynasty': 'Dynasty',
-      'title': 'Title',
-      'content': 'Content',
+      'title': 'Title(Separate multiple search terms with a space)',
+      'content': 'Content(Separate multiple search terms with a space)',
     },
     'zh': {
       'heading': '诗词搜索',
@@ -55,8 +55,8 @@ class VersesLocalizations {
       'change': '下一首',
       'author': '作者',
       'dynasty': '朝代',
-      'title': '题目',
-      'content': '内容',
+      'title': '题目(多个搜索词请用空格分开)',
+      'content': '内容(多个搜索词请用空格分开)',
     },
   };
 
