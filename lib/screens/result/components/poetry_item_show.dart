@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:Verses/contants.dart';
 
 class PoetryItemShow extends StatefulWidget {
   final Map<String, dynamic> poetry;
@@ -34,33 +36,45 @@ class _PoetryItemShowState extends State<PoetryItemShow> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    children: getContent(widget.poetry),
-                  ),
+    return Consumer<ThemeProvide>(
+      builder: (context, themeProvider, child) {
+        var themeId = themeProvider.value;
+        return Scaffold(
+          body: Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.only(top: 50, bottom: 50),
+                child: Column(
+                  children: [
+                    Container(
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          children: getContent(widget.poetry),
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: themeColor[themeId]['textColor'],
+                          ),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: _press,
+                      icon: SvgPicture.asset(
+                        "assets/icons/heart.svg",
+                        height: 40,
+                        width: 40,
+                        color: isLike ? Colors.red : themeColor[themeId]['backgroundColor'],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              IconButton(
-                onPressed: _press,
-                icon: SvgPicture.asset(
-                  "assets/icons/heart.svg",
-                  height: 40,
-                  width: 40,
-                  color: isLike ? Colors.red : Colors.white,
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+          backgroundColor: themeColor[themeId]['primaryColor'],
+        );
+      },
     );
   }
 }

@@ -79,11 +79,9 @@ class ResultScreenState extends State<ResultScreen> {
     bool result = false;
     var searchPoetry;
 
-    // 如果url是正确的
     if (isRightUrl) {
-      // 先显示等待查询页面
       setState(() {
-        this.body = SearchRemind(reminds: "稍等");
+        this.body = SearchRemind(reminds: "稍等，正在查询中！");
       });
       try {
         var request = await httpClient.getUrl(Uri.parse(url));
@@ -100,8 +98,15 @@ class ResultScreenState extends State<ResultScreen> {
       }
     }
 
-    // 如果成功 显示查询的诗词列表
-    if (result && searchPoetry.length > 0) {
+    if (result && searchPoetry[0].containsKey('error')) {
+      setState(() {
+        this.body = SearchRemind(reminds: searchPoetry[0]['error']);
+      });
+    } else if (result && searchPoetry[0].containsKey('warning')) {
+      setState(() {
+        this.body = SearchRemind(reminds: searchPoetry[0]['warning']);
+      });
+    } else if (result) {
       for (var i = 0, len = searchPoetry.length; i < len; ++i) {
         this.poetries.add(searchPoetry[i]);
       }
@@ -111,15 +116,9 @@ class ResultScreenState extends State<ResultScreen> {
           poetryItem: (poetry) => PoetryItemShow(poetry: poetry),
         );
       });
-    } else if (result) {
-      // 显示未查询到结果
-      setState(() {
-        this.body = SearchRemind(reminds: "无结果");
-      });
     } else {
-      // url 无效
       setState(() {
-        this.body = SearchRemind(reminds: "输入");
+        this.body = SearchRemind(reminds: "请重新输入搜索词！");
       });
     }
   }

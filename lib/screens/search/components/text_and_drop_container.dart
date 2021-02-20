@@ -1,37 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
+import 'package:provider/provider.dart';
 
 class TextFieldContainer extends StatelessWidget {
   final Widget child;
 
-  const TextFieldContainer({
-    Key key,
-    this.child,
-  }) : super(key: key);
+  const TextFieldContainer({Key key, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      height: size.height * 0.08,
-      width: size.width * 0.8,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(29),
-      ),
-      child: Center(
-        child: this.child,
-      ),
+    return Consumer<ThemeProvide>(
+      builder: (context, themeProvider, child) {
+        var themeId = themeProvider.value;
+        Size size = MediaQuery.of(context).size;
+        return Container(
+          margin: EdgeInsets.symmetric(vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          height: size.height * 0.08,
+          width: size.width * 0.8,
+          decoration: BoxDecoration(
+            color: themeColor[themeId]['primaryColor'],
+            borderRadius: BorderRadius.circular(29),
+          ),
+          child: Center(
+            child: this.child,
+          ),
+        );
+      },
     );
   }
 }
 
 class DropContainer extends StatefulWidget {
   final Function setDynasty;
+  final int themeId;
 
-  DropContainer({Key key, this.setDynasty}) : super(key: key);
+  DropContainer({Key key, this.setDynasty, this.themeId}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -47,19 +51,21 @@ class _DropContainerState extends State<DropContainer> {
     widget.setDynasty(dropdownValue);
     return TextFieldContainer(
       child: DropdownButton<String>(
-        value: dropdownValue,
-        isExpanded: true,
-        style: TextStyle(color: Colors.deepPurple, textBaseline: TextBaseline.alphabetic),
-        underline: Container(
-          height: 0,
-        ),
-        onChanged: (String newValue) {
-          setState(() {
-            dropdownValue = newValue;
-          });
-        },
-        items: createDynasties(),
-      ),
+          value: dropdownValue,
+          dropdownColor: themeColor[widget.themeId]['primaryColor'],
+          isExpanded: true,
+          style: TextStyle(
+              color: themeColor[widget.themeId]['textColor'].withOpacity(0.4),
+              textBaseline: TextBaseline.alphabetic),
+          underline: Container(
+            height: 0,
+          ),
+          onChanged: (String newValue) {
+            setState(() {
+              dropdownValue = newValue;
+            });
+          },
+          items: createDynasties()),
     );
   }
 

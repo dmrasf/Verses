@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
+import 'package:provider/provider.dart';
 import 'package:Verses/screens/home/components/home_communication.dart';
 
 class TodayPoetryAndMore extends StatelessWidget {
@@ -10,34 +11,39 @@ class TodayPoetryAndMore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: kDefaultPadding,
-        vertical: kDefaultPadding,
-      ),
-      child: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: kDefaultPadding / 4),
-            child: Text(
-              VersesLocalizations.of(context).todayPoetry,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+    return Consumer<ThemeProvide>(
+      builder: (context, themeProvider, child) {
+        var themeId = themeProvider.value;
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kDefaultPadding,
+            vertical: kDefaultPadding,
           ),
-          Spacer(),
-          FlatButton(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: Text(
-              VersesLocalizations.of(context).change,
-              style: TextStyle(
-                color: Colors.white,
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: kDefaultPadding / 4),
+                child: Text(
+                  VersesLocalizations.of(context).todayPoetry,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            color: kPirmaryColor,
-            onPressed: _press,
+              Spacer(),
+              FlatButton(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                child: Text(
+                  VersesLocalizations.of(context).change,
+                  style: TextStyle(
+                    color: themeColor[themeId]["textColor"],
+                  ),
+                ),
+                color: themeColor[themeId]["primaryColor"],
+                onPressed: _press,
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

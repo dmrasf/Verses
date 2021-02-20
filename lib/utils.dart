@@ -25,11 +25,6 @@ List<InlineSpan> getContent(Map<String, dynamic> poetry) {
   for (var i = 0, len = lines.length; i < len; ++i) {
     contents.add(TextSpan(
       text: lines[i],
-      style: TextStyle(
-        color: kTextColor,
-        fontSize: 15,
-        fontWeight: FontWeight.bold,
-      ),
     ));
   }
 

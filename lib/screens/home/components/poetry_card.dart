@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:Verses/contants.dart';
 import 'package:Verses/utils.dart';
 import 'dart:io';
+import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PoetryCard extends StatefulWidget {
@@ -73,65 +74,69 @@ class PoetryCardState extends State<PoetryCard> {
     if (this.poetry.isEmpty) {
       return Container();
     }
-    return Container(
-      margin: EdgeInsets.only(bottom: kDefaultPadding * 0.5),
-      padding: EdgeInsets.symmetric(
-        horizontal: kDefaultPadding,
-        vertical: kDefaultPadding * 0.6,
-      ),
-      width: size.width * 0.9,
-      child: Column(
-        children: [
-          Row(
+    return Consumer<ThemeProvide>(
+      builder: (context, themeProvider, child) {
+        var themeId = themeProvider.value;
+        return Container(
+          margin: EdgeInsets.only(bottom: kDefaultPadding * 0.5),
+          padding: EdgeInsets.symmetric(
+            horizontal: kDefaultPadding,
+            vertical: kDefaultPadding * 0.6,
+          ),
+          width: size.width * 0.9,
+          child: Column(
             children: [
-              RichText(
-                text: TextSpan(
-                  text: "${poetry['作者']}\n${poetry['朝代']}",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: kTextColor,
-                    fontWeight: FontWeight.bold,
+              Row(
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      text: "${poetry['作者']}\n${poetry['朝代']}",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: themeColor[themeId]["textColor"],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
+                  Spacer(),
+                  Container(
+                    width: size.width * 0.5,
+                    child: Text(
+                      "${poetry['题目']}",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    onPressed: _pressCol,
+                    icon: SvgPicture.asset("assets/icons/heart.svg",
+                        height: 20,
+                        width: 20,
+                        color: isLike ? Colors.red : themeColor[themeId]['backgroundColor']),
+                  ),
+                ],
               ),
-              Spacer(),
               Container(
-                width: size.width * 0.5,
-                child: Text(
-                  "${poetry['题目']}",
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
+                padding: EdgeInsets.only(top: kDefaultPadding * 0.5),
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    children: getContent(this.poetry),
+                    style: TextStyle(color: themeColor[themeId]['textColor']),
                   ),
-                ),
-              ),
-              Spacer(),
-              IconButton(
-                onPressed: _pressCol,
-                icon: SvgPicture.asset(
-                  "assets/icons/heart.svg",
-                  height: 20,
-                  width: 20,
-                  color: isLike ? Colors.red : Colors.white,
                 ),
               ),
             ],
           ),
-          Container(
-            padding: EdgeInsets.only(top: kDefaultPadding * 0.5),
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                children: getContent(this.poetry),
-              ),
-            ),
+          decoration: BoxDecoration(
+            color: themeColor[themeId]["primaryColor"],
+            borderRadius: BorderRadius.circular(10),
           ),
-        ],
-      ),
-      decoration: BoxDecoration(
-        color: kPirmaryColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
+        );
+      },
     );
   }
 }
