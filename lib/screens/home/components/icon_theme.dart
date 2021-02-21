@@ -1,5 +1,4 @@
 import 'package:Verses/contants.dart';
-import 'package:Verses/main.dart';
 import 'package:Verses/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

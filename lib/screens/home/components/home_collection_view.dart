@@ -24,7 +24,7 @@ class CollectionListView extends StatelessWidget {
   Widget build(BuildContext context) {
     print(getPoetriesInPairs('作者'));
     return Scaffold(
-      body: PoetryListView(
+      body: CollectionPoetryListView(
         poetries: poetries,
         poetryItem: (poetry) => PoetryItemShowForCol(poetry: poetry),
       ),
