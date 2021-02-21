@@ -42,7 +42,7 @@ class VersesLocalizations {
       'heading': 'Search Verses',
       'search': 'Search',
       'todayPoetry': 'Today Poetry',
-      'change': 'Change',
+      'change': 'Next',
       'author': 'Author',
       'dynasty': 'Dynasty',
       'title': 'Title(Separate multiple search terms with a space)',
