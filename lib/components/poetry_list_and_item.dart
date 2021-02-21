@@ -76,12 +76,16 @@ class PoetryListItem extends StatelessWidget {
         return GestureDetector(
           child: Container(
             height: size.height * 0.1,
+            margin: EdgeInsets.only(top: 6, left: 4, right: 4),
             padding: EdgeInsets.only(left: 20, right: 20),
             child: Row(
               children: [
-                Text(
-                  this.poetry['题目'],
-                  style: TextStyle(color: themeColor[themeId]['textColor']),
+                Container(
+                  width: size.width * 0.6,
+                  child: Text(this.poetry['题目'],
+                      maxLines: 1,
+                      style: TextStyle(color: themeColor[themeId]['textColor']),
+                      overflow: TextOverflow.ellipsis),
                 ),
                 Spacer(),
                 Text(
@@ -92,11 +96,7 @@ class PoetryListItem extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: themeColor[themeId]['primaryColor'],
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(
-                color: themeColor[themeId]['backgroundColor'],
-                width: 3,
-              ),
+              borderRadius: BorderRadius.circular(3),
             ),
           ),
           onTap: () {
