@@ -36,26 +36,35 @@ class CollectionPoetryListView extends StatelessWidget {
       child: ListView.builder(
         itemCount: this.poetries.length,
         itemBuilder: (context, index) {
-          return Dismissible(
-            key: Key(this.poetries[index]['内容']),
-            child: PoetryListItem(
-              poetry: this.poetries[index],
-              poetryItem: this.poetryItem,
-            ),
-            onDismissed: (direction) {
-              collectionToggle(this.poetries[index]);
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('《' +
-                      this.poetries[index]['题目'] +
-                      '》 ' +
-                      VersesLocalizations.of(context).dismissed),
-                  duration: Duration(milliseconds: 500),
+          return Consumer<ThemeProvide>(
+            builder: (context, themeProvider, child) {
+              var themeId = themeProvider.value;
+              return Dismissible(
+                key: Key(this.poetries[index]['内容']),
+                child: PoetryListItem(
+                  poetry: this.poetries[index],
+                  poetryItem: this.poetryItem,
                 ),
+                onDismissed: (direction) {
+                  collectionToggle(this.poetries[index]);
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        '《' +
+                            this.poetries[index]['题目'] +
+                            '》 ' +
+                            VersesLocalizations.of(context).dismissed,
+                        style: TextStyle(color: themeColor[themeId]['textColor']),
+                      ),
+                      duration: Duration(milliseconds: 500),
+                      backgroundColor: themeColor[themeId]['primaryColor'],
+                    ),
+                  );
+                },
+                direction: DismissDirection.endToStart,
+                //confirmDismiss: (direction) {},
               );
             },
-            direction: DismissDirection.endToStart,
-            //confirmDismiss: (direction) {},
           );
         },
       ),
