@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:Verses/contants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:io';
@@ -86,7 +85,6 @@ Future<List<Map<String, dynamic>>> getCollection() async {
     var poetry = jsonDecode(poeStr);
     poetries.add(poetry);
   }
-
   return poetries;
 }
 

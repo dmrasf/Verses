@@ -1,8 +1,9 @@
 import 'package:Verses/components/poetry_list_and_item.dart';
 import 'package:Verses/screens/home/components/poetry_item_show_col.dart';
 import 'package:flutter/material.dart';
+import 'package:Verses/utils.dart';
 
-enum PairTypes { addtime, author, dynasty }
+const Map PairTypes = {'addtime': 1, 'author': 2, 'dynasty': 3};
 
 class CollectionListView extends StatefulWidget {
   final List<Map<String, dynamic>> poetries;
@@ -15,16 +16,30 @@ class CollectionListView extends StatefulWidget {
 
 class _CollectionListViewState extends State<CollectionListView> {
   final List<Map<String, dynamic>> poetries;
-  var pairType = PairTypes.addtime;
+  var pairType;
 
   _CollectionListViewState({this.poetries});
 
+  void getPairType() async {
+    this.pairType = await SharedPreferencesUtil.getData<int>('pairType') ?? PairTypes['addtime'];
+    setState(() {});
+  }
+
+  void updatePairType(int pt) async {
+    this.pairType = pt;
+    await SharedPreferencesUtil.setData<int>('pairType', this.pairType);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPairType();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(),
-      body: getCollectionView(),
-    );
+    return Scaffold(appBar: buildAppBar(), body: getCollectionView());
   }
 
   Map<String, List<Map<String, dynamic>>> getPoetriesInPairs(String key) {
@@ -45,22 +60,19 @@ class _CollectionListViewState extends State<CollectionListView> {
       actions: [
         IconButton(
           onPressed: () {
-            this.pairType = PairTypes.addtime;
-            setState(() {});
+            updatePairType(PairTypes['addtime']);
           },
           icon: Icon(Icons.add),
         ),
         IconButton(
           onPressed: () {
-            this.pairType = PairTypes.author;
-            setState(() {});
+            updatePairType(PairTypes['author']);
           },
           icon: Icon(Icons.wc),
         ),
         IconButton(
           onPressed: () {
-            this.pairType = PairTypes.dynasty;
-            setState(() {});
+            updatePairType(PairTypes['dynasty']);
           },
           icon: Icon(Icons.atm),
         )
@@ -69,29 +81,28 @@ class _CollectionListViewState extends State<CollectionListView> {
   }
 
   Widget getCollectionView() {
-    switch (this.pairType) {
-      case PairTypes.author:
-        return GridView(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 1.0,
-          ),
-          children: <Widget>[
-            Icon(Icons.ac_unit, color: Colors.red),
-            Icon(Icons.airport_shuttle, color: Colors.red),
-            Icon(Icons.all_inclusive, color: Colors.red),
-            Icon(Icons.beach_access, color: Colors.red),
-            Icon(Icons.cake, color: Colors.red),
-            Icon(Icons.free_breakfast, color: Colors.red)
-          ],
-        );
-      case PairTypes.dynasty:
-        return Container();
-      default:
-        return CollectionPoetryListView(
-          poetries: poetries,
-          poetryItem: (poetry) => PoetryItemShowForCol(poetry: poetry),
-        );
+    if (this.pairType == PairTypes['author']) {
+      return GridView(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 1.0,
+        ),
+        children: <Widget>[
+          Icon(Icons.ac_unit, color: Colors.red),
+          Icon(Icons.airport_shuttle, color: Colors.red),
+          Icon(Icons.all_inclusive, color: Colors.red),
+          Icon(Icons.beach_access, color: Colors.red),
+          Icon(Icons.cake, color: Colors.red),
+          Icon(Icons.free_breakfast, color: Colors.red)
+        ],
+      );
+    } else if (this.pairType == PairTypes['dynasty']) {
+      return Container();
+    } else {
+      return CollectionPoetryListView(
+        poetries: poetries,
+        poetryItem: (poetry) => PoetryItemShowForCol(poetry: poetry),
+      );
     }
   }
 }

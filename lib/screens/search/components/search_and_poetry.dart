@@ -69,7 +69,7 @@ class SearchPoetry extends StatelessWidget {
       hintText: hintStr,
       hintStyle: TextStyle(
         color: themeColor[themeId]['textColor'].withOpacity(0.4),
-        fontSize: 10,
+        fontSize: 13,
       ),
       enabledBorder: InputBorder.none,
       focusedBorder: InputBorder.none,

@@ -48,8 +48,9 @@ class CollectionPoetryListView extends StatelessWidget {
                 SnackBar(
                   content: Text('《' +
                       this.poetries[index]['题目'] +
-                      '》' +
+                      '》 ' +
                       VersesLocalizations.of(context).dismissed),
+                  duration: Duration(milliseconds: 500),
                 ),
               );
             },
