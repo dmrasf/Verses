@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show SynchronousFuture;
 
-const kPirmaryColor = Colors.red;
-const kTextColor = Colors.blue;
-const kBackgroundColor = Colors.pink;
-
 const double kDefaultPadding = 20.0;
 
 const String urlPoetry = 'https://dmrasf.com:7777/poetry/';
@@ -43,6 +39,7 @@ class VersesLocalizations {
       'search': 'Search',
       'todayPoetry': 'Today Poetry',
       'change': 'Next',
+      'addTime': 'Date',
       'author': 'Author',
       'dynasty': 'Dynasty',
       'title': 'Title(Separate multiple search terms with a space)',
@@ -58,6 +55,7 @@ class VersesLocalizations {
       'search': '搜索',
       'todayPoetry': '今日诗词',
       'change': '下一首',
+      'addTime': '时间',
       'author': '作者',
       'dynasty': '朝代',
       'title': '题目(多个搜索词请用空格分开)',
@@ -84,6 +82,10 @@ class VersesLocalizations {
 
   String get change {
     return _localizedValues[locale.languageCode]['change'];
+  }
+
+  String get addTime {
+    return _localizedValues[locale.languageCode]['addTime'];
   }
 
   String get author {

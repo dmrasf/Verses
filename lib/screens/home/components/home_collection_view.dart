@@ -1,8 +1,10 @@
 import 'package:Verses/components/poetry_list_and_item.dart';
 import 'package:Verses/screens/home/components/poetry_item_show_col.dart';
+import 'package:Verses/screens/home/components/home_collection_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Verses/utils.dart';
+import 'package:Verses/contants.dart';
 
 const Map PairTypes = {'addtime': 1, 'addtimeN': 2, 'author': 3, 'dynasty': 4};
 
@@ -53,10 +55,15 @@ class _CollectionListViewState extends State<CollectionListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: buildAppBar(), body: getCollectionView());
+    return Consumer<ThemeProvide>(
+      builder: (context, themeProvider, child) {
+        var themeId = themeProvider.value;
+        return Scaffold(appBar: buildAppBar(themeId), body: getCollectionView(themeId));
+      },
+    );
   }
 
-  Map<String, List<Map<String, dynamic>>> getPoetriesInPairs(String key) {
+  List<List<Map<String, dynamic>>> getPoetriesInPairs(String key) {
     var pairP = Map<String, List<Map<String, dynamic>>>();
     for (var i = 0; i < this.poetries.length; i++) {
       if (pairP.containsKey(poetries[i][key])) {
@@ -66,26 +73,39 @@ class _CollectionListViewState extends State<CollectionListView> {
         pairP[poetries[i][key]].add(this.poetries[i]);
       }
     }
-    return pairP;
+    var pairPoetries = List<List<Map<String, dynamic>>>();
+    pairP.forEach((_, pl) {
+      pairPoetries.add(pl);
+    });
+    return pairPoetries;
   }
 
-  AppBar buildAppBar() {
+  AppBar buildAppBar(var themeId) {
     return AppBar(
       actions: [
         FlatButton(
-          child: Text('时间'),
+          child: Text(
+            VersesLocalizations.of(context).addTime,
+            style: TextStyle(color: themeColor[themeId]["textColor"]),
+          ),
           onPressed: () {
             updatePairType(PairTypes['addtime']);
           },
         ),
         FlatButton(
-          child: Text('作者'),
+          child: Text(
+            VersesLocalizations.of(context).author,
+            style: TextStyle(color: themeColor[themeId]["textColor"]),
+          ),
           onPressed: () {
             updatePairType(PairTypes['author']);
           },
         ),
         FlatButton(
-          child: Text('朝代'),
+          child: Text(
+            VersesLocalizations.of(context).dynasty,
+            style: TextStyle(color: themeColor[themeId]["textColor"]),
+          ),
           onPressed: () {
             updatePairType(PairTypes['dynasty']);
           },
@@ -94,24 +114,14 @@ class _CollectionListViewState extends State<CollectionListView> {
     );
   }
 
-  Widget getCollectionView() {
+  Widget getCollectionView(var themeId) {
+    if (poetries.length == 0) {
+      return Center(child: Image(image: AssetImage('assets/imgs/empty.png')));
+    }
     if (this.pairType == PairTypes['author']) {
-      return GridView(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 1.0,
-        ),
-        children: <Widget>[
-          Icon(Icons.ac_unit, color: Colors.red),
-          Icon(Icons.airport_shuttle, color: Colors.red),
-          Icon(Icons.all_inclusive, color: Colors.red),
-          Icon(Icons.beach_access, color: Colors.red),
-          Icon(Icons.cake, color: Colors.red),
-          Icon(Icons.free_breakfast, color: Colors.red)
-        ],
-      );
+      return CollectionGridView(pairType: '作者', pairPoetries: getPoetriesInPairs('作者'));
     } else if (this.pairType == PairTypes['dynasty']) {
-      return Container();
+      return CollectionGridView(pairType: '朝代', pairPoetries: getPoetriesInPairs('朝代'));
     } else {
       var tmpPoetries = poetries;
       if (this.pairType == PairTypes['addtimeN']) {

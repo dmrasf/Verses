@@ -4,7 +4,6 @@ import 'package:Verses/screens/result/result_screen.dart';
 import 'package:Verses/screens/search/components/search_and_poetry.dart';
 import 'package:provider/provider.dart';
 
-@immutable
 class SearchScreen extends StatelessWidget {
   final TextEditingController myControllerAuthor = TextEditingController();
   final TextEditingController myControllerTitle = TextEditingController();
