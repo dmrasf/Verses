@@ -1,9 +1,10 @@
 import 'package:Verses/components/poetry_list_and_item.dart';
 import 'package:Verses/screens/home/components/poetry_item_show_col.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:Verses/utils.dart';
 
-const Map PairTypes = {'addtime': 1, 'author': 2, 'dynasty': 3};
+const Map PairTypes = {'addtime': 1, 'addtimeN': 2, 'author': 3, 'dynasty': 4};
 
 class CollectionListView extends StatefulWidget {
   final List<Map<String, dynamic>> poetries;
@@ -26,8 +27,21 @@ class _CollectionListViewState extends State<CollectionListView> {
   }
 
   void updatePairType(int pt) async {
-    this.pairType = pt;
-    await SharedPreferencesUtil.setData<int>('pairType', this.pairType);
+    if (pt == PairTypes['addtime']) {
+      if (this.pairType == PairTypes['addtime']) {
+        this.pairType = PairTypes['addtimeN'];
+        await SharedPreferencesUtil.setData<int>('pairType', PairTypes['addtimeN']);
+      } else if (this.pairType == PairTypes['addtimeN']) {
+        this.pairType = PairTypes['addtime'];
+        await SharedPreferencesUtil.setData<int>('pairType', PairTypes['addtime']);
+      } else {
+        this.pairType = pt;
+        await SharedPreferencesUtil.setData<int>('pairType', this.pairType);
+      }
+    } else {
+      this.pairType = pt;
+      await SharedPreferencesUtil.setData<int>('pairType', this.pairType);
+    }
     setState(() {});
   }
 
@@ -58,24 +72,24 @@ class _CollectionListViewState extends State<CollectionListView> {
   AppBar buildAppBar() {
     return AppBar(
       actions: [
-        IconButton(
+        FlatButton(
+          child: Text('时间'),
           onPressed: () {
             updatePairType(PairTypes['addtime']);
           },
-          icon: Icon(Icons.add),
         ),
-        IconButton(
+        FlatButton(
+          child: Text('作者'),
           onPressed: () {
             updatePairType(PairTypes['author']);
           },
-          icon: Icon(Icons.wc),
         ),
-        IconButton(
+        FlatButton(
+          child: Text('朝代'),
           onPressed: () {
             updatePairType(PairTypes['dynasty']);
           },
-          icon: Icon(Icons.atm),
-        )
+        ),
       ],
     );
   }
@@ -99,8 +113,12 @@ class _CollectionListViewState extends State<CollectionListView> {
     } else if (this.pairType == PairTypes['dynasty']) {
       return Container();
     } else {
+      var tmpPoetries = poetries;
+      if (this.pairType == PairTypes['addtimeN']) {
+        tmpPoetries = this.poetries.reversed.toList();
+      }
       return CollectionPoetryListView(
-        poetries: poetries,
+        poetries: tmpPoetries,
         poetryItem: (poetry) => PoetryItemShowForCol(poetry: poetry),
       );
     }
