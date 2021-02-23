@@ -40,10 +40,7 @@ Future<bool> collectionToggle(Map<String, dynamic> poetry) async {
     file.deleteSync();
     return false;
   } else {
-    // 如果文件不存在 创建
     var cfile = await file.create();
-    // 把诗词内容保存到其中
-    print(jsonEncode(poetry));
     File wfile = await cfile.writeAsString(jsonEncode(poetry));
     if (wfile.existsSync()) {
       return true;

@@ -110,7 +110,6 @@ class PoetryListItem extends StatelessWidget {
             ),
           ),
           onTap: () {
-            print(this.poetry);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => poetryItem(this.poetry)),

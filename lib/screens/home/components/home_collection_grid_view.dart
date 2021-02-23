@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:Verses/utils.dart';
-import 'package:Verses/contants.dart';
+import 'package:Verses/screens/home/components/poetry_item_show_col.dart';
+import 'package:Verses/components/poetry_list_and_item.dart';
 
 class CollectionGridView extends StatefulWidget {
   final String pairType;
@@ -23,16 +22,41 @@ class _CollectionGridViewState extends State<CollectionGridView> {
       ),
       itemCount: widget.pairPoetries.length,
       itemBuilder: (context, index) {
-        return Text(widget.pairPoetries[index][0][widget.pairType]);
+        return CollectionGridItemView(
+          pairTypeKey: widget.pairPoetries[index][0][widget.pairType],
+          poetries: widget.pairPoetries[index],
+        );
       },
     );
   }
 }
 
 class CollectionGridItemView extends StatelessWidget {
-  CollectionGridItemView({Key key}) : super(key: key);
+  final String pairTypeKey;
+  final List<Map<String, dynamic>> poetries;
+
+  CollectionGridItemView({Key key, this.pairTypeKey, this.poetries}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return GestureDetector(
+      child: Center(
+        child: Text(this.pairTypeKey),
+      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Scaffold(
+              appBar: AppBar(),
+              body: CollectionPoetryListView(
+                poetries: this.poetries,
+                poetryItem: (poetry) => PoetryItemShowForCol(poetry: poetry),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
