@@ -24,7 +24,7 @@ class _CollectionGridViewState extends State<CollectionGridView> {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        childAspectRatio: 0.7,
+        childAspectRatio: 0.8,
       ),
       itemCount: pairPoetries.length,
       itemBuilder: (context, index) {
@@ -89,7 +89,7 @@ class CollectionGridItemView extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: themeColor[themeId]['primaryColor'],
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(17),
             ),
           ),
           onTap: () {
