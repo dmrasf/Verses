@@ -63,23 +63,6 @@ class _CollectionListViewState extends State<CollectionListView> {
     );
   }
 
-  List<List<Map<String, dynamic>>> getPoetriesInPairs(String key) {
-    var pairP = Map<String, List<Map<String, dynamic>>>();
-    for (var i = 0; i < this.poetries.length; i++) {
-      if (pairP.containsKey(poetries[i][key])) {
-        pairP[poetries[i][key]].add(this.poetries[i]);
-      } else {
-        pairP[poetries[i][key]] = List<Map<String, dynamic>>();
-        pairP[poetries[i][key]].add(this.poetries[i]);
-      }
-    }
-    var pairPoetries = List<List<Map<String, dynamic>>>();
-    pairP.forEach((_, pl) {
-      pairPoetries.add(pl);
-    });
-    return pairPoetries;
-  }
-
   AppBar buildAppBar(var themeId) {
     return AppBar(
       actions: [
@@ -119,9 +102,9 @@ class _CollectionListViewState extends State<CollectionListView> {
       return Center(child: Image(image: AssetImage('assets/imgs/empty.png')));
     }
     if (this.pairType == PairTypes['author']) {
-      return CollectionGridView(pairType: '作者', pairPoetries: getPoetriesInPairs('作者'));
+      return CollectionGridView(pairType: '作者', poetries: this.poetries);
     } else if (this.pairType == PairTypes['dynasty']) {
-      return CollectionGridView(pairType: '朝代', pairPoetries: getPoetriesInPairs('朝代'));
+      return CollectionGridView(pairType: '朝代', poetries: this.poetries);
     } else {
       var tmpPoetries = poetries;
       if (this.pairType == PairTypes['addtimeN']) {
