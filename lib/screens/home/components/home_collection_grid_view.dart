@@ -3,6 +3,7 @@ import 'package:Verses/screens/home/components/poetry_item_show_col.dart';
 import 'package:Verses/components/poetry_list_and_item.dart';
 import 'package:provider/provider.dart';
 import 'package:Verses/contants.dart';
+import 'package:Verses/utils.dart';
 
 class CollectionGridView extends StatefulWidget {
   final String pairType;
@@ -73,6 +74,7 @@ class CollectionGridItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeProvide>(
       builder: (context, themeProvider, child) {
+        Size size = MediaQuery.of(context).size;
         var themeId = themeProvider.value;
         return GestureDetector(
           child: Container(
@@ -105,6 +107,34 @@ class CollectionGridItemView extends StatelessWidget {
                   ),
                 ),
               ),
+            );
+          },
+          onLongPress: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: false,
+              isDismissible: true,
+              backgroundColor: themeColor[themeId]['primaryColor'],
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+              builder: (context) {
+                return Container(
+                  width: size.width,
+                  child: TextButton(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.red),
+                      overlayColor: MaterialStateProperty.all(themeColor[themeId]['primaryColor']),
+                    ),
+                    child: Text('删除'),
+                    onPressed: () {
+                      for (var poetry in poetries) {
+                        this.updatePoetriesForParent(poetry);
+                        collectionToggle(poetry);
+                      }
+                      Navigator.pop(context);
+                    },
+                  ),
+                );
+              },
             );
           },
         );

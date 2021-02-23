@@ -20,6 +20,7 @@ class SearchScreen extends StatelessWidget {
         var themeId = themeProvider.value;
         return Scaffold(
           resizeToAvoidBottomPadding: false,
+          appBar: AppBar(),
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
