@@ -3,19 +3,12 @@ import 'package:Verses/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:Verses/contants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:Verses/screens/home/components/poetry_item_show_card.dart';
 
-class PoetryItemShowForCol extends StatefulWidget {
+class PoetryItemShowForCol extends StatelessWidget {
   final Map<String, dynamic> poetry;
 
   PoetryItemShowForCol({Key key, this.poetry}) : super(key: key);
-  @override
-  _PoetryItemShowForColState createState() => _PoetryItemShowForColState(poetry: this.poetry);
-}
-
-class _PoetryItemShowForColState extends State<PoetryItemShowForCol> {
-  final Map<String, dynamic> poetry;
-
-  _PoetryItemShowForColState({this.poetry});
 
   @override
   Widget build(BuildContext context) {
@@ -36,49 +29,7 @@ class _PoetryItemShowForColState extends State<PoetryItemShowForCol> {
           body: Column(
             children: [
               Expanded(
-                child: Container(
-                  margin: EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: size.width,
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: size.width,
-                            child: Scrollbar(
-                              child: SingleChildScrollView(
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    children: getContent(this.poetry),
-                                    style: TextStyle(
-                                      fontFamily: 'LongCang',
-                                      fontSize: 20,
-                                      color: themeColor[themeId]['textColor'],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: size.height * 0.06,
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          children: [],
-                        ),
-                      ),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    color: themeColor[themeId]['primaryColor'],
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
+                child: PoetryItemShowCard(poetry: this.poetry, themeId: themeId),
               ),
               Container(
                 height: size.height * 0.1,

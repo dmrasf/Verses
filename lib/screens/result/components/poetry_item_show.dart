@@ -3,6 +3,7 @@ import 'package:Verses/utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:Verses/contants.dart';
+import 'package:Verses/screens/home/components/poetry_item_show_card.dart';
 
 class PoetryItemShow extends StatefulWidget {
   final Map<String, dynamic> poetry;
@@ -39,40 +40,31 @@ class _PoetryItemShowState extends State<PoetryItemShow> {
     return Consumer<ThemeProvide>(
       builder: (context, themeProvider, child) {
         var themeId = themeProvider.value;
+        Size size = MediaQuery.of(context).size;
         return Scaffold(
-          body: Center(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.only(top: 50, bottom: 50),
-                child: Column(
-                  children: [
-                    Container(
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          children: getContent(widget.poetry),
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: themeColor[themeId]['textColor'],
-                          ),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: _press,
-                      icon: SvgPicture.asset(
-                        "assets/icons/heart.svg",
-                        height: 40,
-                        width: 40,
-                        color: isLike ? Colors.red : themeColor[themeId]['backgroundColor'],
-                      ),
-                    ),
-                  ],
-                ),
+          appBar: AppBar(),
+          body: Column(
+            children: [
+              Expanded(
+                child: PoetryItemShowCard(poetry: widget.poetry, themeId: themeId),
               ),
-            ),
+              GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                  width: size.width,
+                  height: size.height * 0.08,
+                  alignment: Alignment.center,
+                  child: isLike ? Text('Unlike') : Text('Like'),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: isLike ? Colors.red : themeColor[themeId]['primaryColor'],
+                  ),
+                ),
+                onTap: _press,
+              ),
+            ],
           ),
-          backgroundColor: themeColor[themeId]['primaryColor'],
+          backgroundColor: themeColor[themeId]['backgroundColor'],
         );
       },
     );
