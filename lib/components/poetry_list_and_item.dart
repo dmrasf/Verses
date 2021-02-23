@@ -11,16 +11,23 @@ class PoetryListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: ListView.builder(
-        itemCount: this.poetries.length,
-        itemBuilder: (context, index) {
-          return PoetryListItem(
-            poetry: this.poetries[index],
-            poetryItem: this.poetryItem,
-          );
-        },
-      ),
+    return CustomScrollView(
+      physics: BouncingScrollPhysics(),
+      slivers: [
+        SliverAppBar(
+          pinned: true,
+          title: Text(this.poetries.length.toString()),
+          centerTitle: true,
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return PoetryListItem(
+              poetry: this.poetries[index],
+              poetryItem: this.poetryItem,
+            );
+          }, childCount: this.poetries.length),
+        ),
+      ],
     );
   }
 }

@@ -69,22 +69,7 @@ class _PoetryItemShowForColState extends State<PoetryItemShowForCol> {
                         height: size.height * 0.06,
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              color: themeColor[themeId]['textColor'],
-                              icon: SvgPicture.asset(
-                                "assets/icons/jianfan.svg",
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              color: themeColor[themeId]['textColor'],
-                              icon: SvgPicture.asset(
-                                "assets/icons/pinyin.svg",
-                              ),
-                            )
-                          ],
+                          children: [],
                         ),
                       ),
                     ],
