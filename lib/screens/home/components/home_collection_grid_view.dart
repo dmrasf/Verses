@@ -6,9 +6,11 @@ import 'package:Verses/contants.dart';
 
 class CollectionGridView extends StatefulWidget {
   final String pairType;
-  final List<Map<String, dynamic>> poetries;
+  final Function updatePoetriesForParent;
+  List<Map<String, dynamic>> poetries;
 
-  CollectionGridView({Key key, this.pairType, this.poetries}) : super(key: key);
+  CollectionGridView({Key key, this.pairType, this.poetries, this.updatePoetriesForParent})
+      : super(key: key);
 
   @override
   _CollectionGridViewState createState() => _CollectionGridViewState();
@@ -29,9 +31,16 @@ class _CollectionGridViewState extends State<CollectionGridView> {
         return CollectionGridItemView(
           pairTypeKey: pairPoetries[index][0][widget.pairType],
           poetries: pairPoetries[index],
+          updatePoetriesForParent: this.updatePoetries,
         );
       },
     );
+  }
+
+  void updatePoetries(Map<String, dynamic> poetry) {
+    widget.updatePoetriesForParent(poetry);
+    widget.poetries.remove(poetry);
+    setState(() {});
   }
 
   List<List<Map<String, dynamic>>> getPoetriesInPairs(String key) {
@@ -55,8 +64,10 @@ class _CollectionGridViewState extends State<CollectionGridView> {
 class CollectionGridItemView extends StatelessWidget {
   final String pairTypeKey;
   final List<Map<String, dynamic>> poetries;
+  final Function updatePoetriesForParent;
 
-  CollectionGridItemView({Key key, this.pairTypeKey, this.poetries}) : super(key: key);
+  CollectionGridItemView({Key key, this.pairTypeKey, this.poetries, this.updatePoetriesForParent})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +101,7 @@ class CollectionGridItemView extends StatelessWidget {
                   body: CollectionPoetryListView(
                     poetries: this.poetries,
                     poetryItem: (poetry) => PoetryItemShowForCol(poetry: poetry),
+                    updatePoetriesForParent: this.updatePoetriesForParent,
                   ),
                 ),
               ),

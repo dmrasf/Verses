@@ -18,7 +18,7 @@ class CollectionListView extends StatefulWidget {
 }
 
 class _CollectionListViewState extends State<CollectionListView> {
-  final List<Map<String, dynamic>> poetries;
+  List<Map<String, dynamic>> poetries;
   var pairType;
 
   _CollectionListViewState({this.poetries});
@@ -97,14 +97,27 @@ class _CollectionListViewState extends State<CollectionListView> {
     );
   }
 
+  void updatePoetries(Map<String, dynamic> poetry) {
+    this.poetries.remove(poetry);
+    setState(() {});
+  }
+
   Widget getCollectionView(var themeId) {
     if (poetries.length == 0) {
       return Center(child: Image(image: AssetImage('assets/imgs/empty.png')));
     }
     if (this.pairType == PairTypes['author']) {
-      return CollectionGridView(pairType: '作者', poetries: this.poetries);
+      return CollectionGridView(
+        pairType: '作者',
+        poetries: this.poetries,
+        updatePoetriesForParent: this.updatePoetries,
+      );
     } else if (this.pairType == PairTypes['dynasty']) {
-      return CollectionGridView(pairType: '朝代', poetries: this.poetries);
+      return CollectionGridView(
+        pairType: '朝代',
+        poetries: this.poetries,
+        updatePoetriesForParent: this.updatePoetries,
+      );
     } else {
       var tmpPoetries = poetries;
       if (this.pairType == PairTypes['addtimeN']) {
@@ -113,6 +126,7 @@ class _CollectionListViewState extends State<CollectionListView> {
       return CollectionPoetryListView(
         poetries: tmpPoetries,
         poetryItem: (poetry) => PoetryItemShowForCol(poetry: poetry),
+        updatePoetriesForParent: this.updatePoetries,
       );
     }
   }

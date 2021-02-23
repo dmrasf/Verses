@@ -55,7 +55,7 @@ Future<List> isPoetryCollection(Map<String, dynamic> poetry) async {
   // 读取保存的文件
   String dirStr = (await getExternalStorageDirectory()).path;
 
-  var bytes = utf8.encode(poetry["内容"]);
+  var bytes = utf8.encode(poetry['作者'] + poetry["内容"] + poetry["朝代"] + poetry["题目"]);
   var digest = sha1.convert(bytes);
 
   String fileName = dirStr + '/' + digest.toString() + ".json";
@@ -66,6 +66,12 @@ Future<List> isPoetryCollection(Map<String, dynamic> poetry) async {
   } else {
     return [true, fileName];
   }
+}
+
+String poetryToString(Map<String, dynamic> poetry) {
+  var bytes = utf8.encode(poetry['作者'] + poetry["内容"] + poetry["朝代"] + poetry["题目"]);
+  var digest = sha1.convert(bytes);
+  return digest.toString();
 }
 
 Future<List<Map<String, dynamic>>> getCollection() async {

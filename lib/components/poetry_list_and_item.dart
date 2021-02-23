@@ -28,8 +28,10 @@ class PoetryListView extends StatelessWidget {
 class CollectionPoetryListView extends StatelessWidget {
   final List<Map<String, dynamic>> poetries;
   final Function poetryItem;
+  final Function updatePoetriesForParent;
 
-  CollectionPoetryListView({Key key, this.poetries, this.poetryItem}) : super(key: key);
+  CollectionPoetryListView({Key key, this.poetries, this.poetryItem, this.updatePoetriesForParent})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
@@ -60,9 +62,9 @@ class CollectionPoetryListView extends StatelessWidget {
                       backgroundColor: themeColor[themeId]['primaryColor'],
                     ),
                   );
+                  updatePoetriesForParent(this.poetries[index]);
                 },
                 direction: DismissDirection.endToStart,
-                //confirmDismiss: (direction) {},
               );
             },
           );
