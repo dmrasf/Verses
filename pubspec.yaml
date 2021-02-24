@@ -36,6 +36,7 @@ dependencies:
   permission_handler: ^5.0.1
   crypto: ^2.1.5
   provider: ^4.3.2
+  lpinyin: ^1.1.1
 
 dev_dependencies:
   flutter_test:

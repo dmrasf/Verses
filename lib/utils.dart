@@ -4,9 +4,11 @@ import 'package:crypto/crypto.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lpinyin/lpinyin.dart';
 
-List<InlineSpan> getContent(Map<String, dynamic> poetry) {
-  List<InlineSpan> contents = List<InlineSpan>();
+enum PoetryShowTypes { normal, pinyin, fanti, all }
+
+List<InlineSpan> getContent(Map<String, dynamic> poetry, {PoetryShowTypes poetryShowType}) {
   String content = poetry["内容"];
   String pattern = "。：？；！";
   List<String> lines = List<String>();
@@ -14,19 +16,55 @@ List<InlineSpan> getContent(Map<String, dynamic> poetry) {
 
   for (var i = 0, len = content.length; i < len; ++i) {
     if (pattern.contains(content[i])) {
-      lines.add(line + content[i] + "\n");
+      lines.add(line + content[i]);
       line = "";
     } else {
       line = line + content[i];
     }
   }
 
-  for (var i = 0, len = lines.length; i < len; ++i) {
-    contents.add(TextSpan(
-      text: lines[i],
-    ));
+  List<InlineSpan> contents = List<InlineSpan>();
+  if (poetryShowType == PoetryShowTypes.pinyin) {
+    List<String> pinyinLines = List<String>();
+    for (var i = 0; i < lines.length; i++) {
+      pinyinLines.add(PinyinHelper.getPinyinE(lines[i],
+          separator: ' ', defPinyin: ' ', format: PinyinFormat.WITH_TONE_MARK));
+    }
+    for (var i = 0, len = lines.length; i < len; ++i) {
+      contents.add(TextSpan(
+        text: pinyinLines[i] + '\n',
+      ));
+      contents.add(TextSpan(
+        text: lines[i] + '\n',
+      ));
+    }
+  } else if (poetryShowType == PoetryShowTypes.fanti || poetryShowType == PoetryShowTypes.all) {
+    List<String> fantiLines = List<String>();
+    for (var i = 0; i < lines.length; i++) {
+      fantiLines.add(ChineseHelper.convertToTraditionalChinese(lines[i]));
+    }
+    List<String> pinyinLines = List<String>();
+    for (var i = 0; i < lines.length; i++) {
+      pinyinLines.add(PinyinHelper.getPinyinE(lines[i],
+          separator: ' ', defPinyin: ' ', format: PinyinFormat.WITH_TONE_MARK));
+    }
+    for (var i = 0; i < lines.length; i++) {
+      if (poetryShowType == PoetryShowTypes.all) {
+        contents.add(TextSpan(
+          text: pinyinLines[i] + '\n',
+        ));
+      }
+      contents.add(TextSpan(
+        text: fantiLines[i] + '\n',
+      ));
+    }
+  } else {
+    for (var i = 0; i < lines.length; i++) {
+      contents.add(TextSpan(
+        text: lines[i] + '\n',
+      ));
+    }
   }
-
   return contents;
 }
 

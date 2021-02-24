@@ -44,7 +44,7 @@ class DropContainer extends StatefulWidget {
 }
 
 class _DropContainerState extends State<DropContainer> {
-  String dropdownValue = '汉';
+  String dropdownValue = '秦';
 
   @override
   Widget build(BuildContext context) {
