@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:Verses/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:Verses/contants.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:Verses/screens/home/components/poetry_item_show_card.dart';
 
 class PoetryItemShowForCol extends StatelessWidget {

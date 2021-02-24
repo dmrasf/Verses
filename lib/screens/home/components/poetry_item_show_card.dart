@@ -11,7 +11,34 @@ class PoetryItemShowCard extends StatefulWidget {
 }
 
 class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
-  PoetryShowTypes poetryShowType = PoetryShowTypes.normal;
+  int poetryShowType;
+
+  void getPoetryShowType() async {
+    this.poetryShowType =
+        await SharedPreferencesUtil.getData<int>('poetryShowType') ?? PoetryShowTypes['normal'];
+    setState(() {});
+  }
+
+  void updatePoetryShowType(String typeKey) async {
+    if (this.poetryShowType == PoetryShowTypes['normal']) {
+      this.poetryShowType = PoetryShowTypes[typeKey];
+    } else if (this.poetryShowType == PoetryShowTypes['pinyin']) {
+      this.poetryShowType = typeKey == 'fanti' ? PoetryShowTypes['all'] : PoetryShowTypes['normal'];
+    } else if (this.poetryShowType == PoetryShowTypes['fanti']) {
+      this.poetryShowType = typeKey == 'fanti' ? PoetryShowTypes['normal'] : PoetryShowTypes['all'];
+    } else if (this.poetryShowType == PoetryShowTypes['all']) {
+      this.poetryShowType =
+          typeKey == 'fanti' ? PoetryShowTypes['pinyin'] : PoetryShowTypes['fanti'];
+    }
+    await SharedPreferencesUtil.setData<int>('poetryShowType', this.poetryShowType);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPoetryShowType();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,44 +84,16 @@ class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
               children: [
                 TextButton(
                   child: Text('拼'),
-                  style: buttonForPoetryStyle(PoetryShowTypes.pinyin, size),
+                  style: buttonForPoetryStyle(PoetryShowTypes['pinyin'], size),
                   onPressed: () {
-                    switch (this.poetryShowType) {
-                      case PoetryShowTypes.normal:
-                        this.poetryShowType = PoetryShowTypes.pinyin;
-                        break;
-                      case PoetryShowTypes.pinyin:
-                        this.poetryShowType = PoetryShowTypes.normal;
-                        break;
-                      case PoetryShowTypes.fanti:
-                        this.poetryShowType = PoetryShowTypes.all;
-                        break;
-                      case PoetryShowTypes.all:
-                        this.poetryShowType = PoetryShowTypes.fanti;
-                        break;
-                    }
-                    setState(() {});
+                    updatePoetryShowType('pinyin');
                   },
                 ),
                 TextButton(
                   child: Text('繁'),
-                  style: buttonForPoetryStyle(PoetryShowTypes.fanti, size),
+                  style: buttonForPoetryStyle(PoetryShowTypes['fanti'], size),
                   onPressed: () {
-                    switch (this.poetryShowType) {
-                      case PoetryShowTypes.normal:
-                        this.poetryShowType = PoetryShowTypes.fanti;
-                        break;
-                      case PoetryShowTypes.pinyin:
-                        this.poetryShowType = PoetryShowTypes.all;
-                        break;
-                      case PoetryShowTypes.fanti:
-                        this.poetryShowType = PoetryShowTypes.normal;
-                        break;
-                      case PoetryShowTypes.all:
-                        this.poetryShowType = PoetryShowTypes.pinyin;
-                        break;
-                    }
-                    setState(() {});
+                    updatePoetryShowType('fanti');
                   },
                 )
               ],
@@ -109,18 +108,19 @@ class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
     );
   }
 
-  ButtonStyle buttonForPoetryStyle(PoetryShowTypes type, Size size) {
+  ButtonStyle buttonForPoetryStyle(int type, Size size) {
     return ButtonStyle(
       minimumSize: MaterialStateProperty.all(Size(size.height * 0.06, size.height * 0.05)),
       foregroundColor: MaterialStateProperty.all(
         themeColor[widget.themeId]['textColor'],
       ),
-      overlayColor: (this.poetryShowType == PoetryShowTypes.all || this.poetryShowType == type)
+      overlayColor: (this.poetryShowType == PoetryShowTypes['all'] || this.poetryShowType == type)
           ? MaterialStateProperty.all(themeColor[widget.themeId]['primaryColor'])
           : MaterialStateProperty.all(themeColor[widget.themeId]['backgroundColor']),
-      backgroundColor: (this.poetryShowType == PoetryShowTypes.all || this.poetryShowType == type)
-          ? MaterialStateProperty.all(themeColor[widget.themeId]['backgroundColor'])
-          : MaterialStateProperty.all(themeColor[widget.themeId]['primaryColor']),
+      backgroundColor:
+          (this.poetryShowType == PoetryShowTypes['all'] || this.poetryShowType == type)
+              ? MaterialStateProperty.all(themeColor[widget.themeId]['backgroundColor'])
+              : MaterialStateProperty.all(themeColor[widget.themeId]['primaryColor']),
     );
   }
 }

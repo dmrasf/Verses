@@ -6,9 +6,9 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lpinyin/lpinyin.dart';
 
-enum PoetryShowTypes { normal, pinyin, fanti, all }
+const Map PoetryShowTypes = {'normal': 1, 'pinyin': 2, 'fanti': 3, 'all': 4};
 
-List<InlineSpan> getContent(Map<String, dynamic> poetry, {PoetryShowTypes poetryShowType}) {
+List<InlineSpan> getContent(Map<String, dynamic> poetry, {int poetryShowType}) {
   String content = poetry["内容"];
   String pattern = "。：？；！";
   List<String> lines = List<String>();
@@ -24,7 +24,7 @@ List<InlineSpan> getContent(Map<String, dynamic> poetry, {PoetryShowTypes poetry
   }
 
   List<InlineSpan> contents = List<InlineSpan>();
-  if (poetryShowType == PoetryShowTypes.pinyin) {
+  if (poetryShowType == PoetryShowTypes['pinyin']) {
     List<String> pinyinLines = List<String>();
     for (var i = 0; i < lines.length; i++) {
       pinyinLines.add(PinyinHelper.getPinyinE(lines[i],
@@ -38,7 +38,8 @@ List<InlineSpan> getContent(Map<String, dynamic> poetry, {PoetryShowTypes poetry
         text: lines[i] + '\n',
       ));
     }
-  } else if (poetryShowType == PoetryShowTypes.fanti || poetryShowType == PoetryShowTypes.all) {
+  } else if (poetryShowType == PoetryShowTypes['fanti'] ||
+      poetryShowType == PoetryShowTypes['all']) {
     List<String> fantiLines = List<String>();
     for (var i = 0; i < lines.length; i++) {
       fantiLines.add(ChineseHelper.convertToTraditionalChinese(lines[i]));
@@ -49,7 +50,7 @@ List<InlineSpan> getContent(Map<String, dynamic> poetry, {PoetryShowTypes poetry
           separator: ' ', defPinyin: ' ', format: PinyinFormat.WITH_TONE_MARK));
     }
     for (var i = 0; i < lines.length; i++) {
-      if (poetryShowType == PoetryShowTypes.all) {
+      if (poetryShowType == PoetryShowTypes['all']) {
         contents.add(TextSpan(
           text: pinyinLines[i] + '\n',
         ));
