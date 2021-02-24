@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/utils.dart';
-import 'package:provider/provider.dart';
 import 'package:Verses/contants.dart';
 
 class SearchPoetryShowLikeButton extends StatefulWidget {
@@ -13,6 +12,7 @@ class SearchPoetryShowLikeButton extends StatefulWidget {
 
 class _SearchPoetryShowLikeButtonState extends State<SearchPoetryShowLikeButton> {
   bool isLike = false;
+  bool tmpIsLike;
 
   @override
   void initState() {
@@ -22,12 +22,21 @@ class _SearchPoetryShowLikeButtonState extends State<SearchPoetryShowLikeButton>
 
   void _init() async {
     this.isLike = (await isPoetryCollection(widget.poetry))[0];
+    this.tmpIsLike = this.isLike;
     setState(() {});
   }
 
   void _press() async {
-    this.isLike = await collectionToggle(widget.poetry);
+    this.tmpIsLike = this.tmpIsLike ? false : true;
     setState(() {});
+  }
+
+  @override
+  void deactivate() {
+    if (this.tmpIsLike != this.isLike) {
+      collectionToggle(widget.poetry);
+    }
+    super.deactivate();
   }
 
   @override
@@ -39,10 +48,10 @@ class _SearchPoetryShowLikeButtonState extends State<SearchPoetryShowLikeButton>
         width: size.width,
         height: size.height * 0.08,
         alignment: Alignment.center,
-        child: isLike ? Text('Unlike') : Text('Like'),
+        child: tmpIsLike ? Text('Unlike') : Text('Like'),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          color: isLike ? Colors.red : themeColor[widget.themeId]['primaryColor'],
+          color: tmpIsLike ? Colors.red : themeColor[widget.themeId]['primaryColor'],
         ),
       ),
       onTap: _press,

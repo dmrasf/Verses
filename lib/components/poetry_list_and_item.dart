@@ -16,7 +16,10 @@ class PoetryListView extends StatelessWidget {
       slivers: [
         SliverAppBar(
           pinned: true,
-          title: Text(this.poetries.length.toString()),
+          title: Text(
+            '找到 ' + this.poetries.length.toString() + ' 首',
+            style: TextStyle(fontSize: 12),
+          ),
           centerTitle: true,
         ),
         SliverList(

@@ -35,7 +35,24 @@ class HomeScreen extends StatelessWidget {
           List<Map<String, dynamic>> poetries = await getCollection();
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CollectionListView(poetries: poetries)),
+            PageRouteBuilder(
+              pageBuilder: (
+                BuildContext context,
+                Animation animation,
+                Animation secondaryAnimation,
+              ) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: Offset(-1.0, 0.0),
+                    end: Offset(0.0, 0.0),
+                  ).animate(CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.fastOutSlowIn,
+                  )),
+                  child: CollectionListView(poetries: poetries),
+                );
+              },
+            ),
           );
         },
         icon: SvgPicture.asset(

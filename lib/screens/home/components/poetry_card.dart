@@ -5,6 +5,7 @@ import 'package:Verses/utils.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:Verses/screens/home/components/poetry_item_show_col.dart';
 
 class PoetryCard extends StatefulWidget {
   PoetryCard({Key key}) : super(key: key);
@@ -77,63 +78,75 @@ class PoetryCardState extends State<PoetryCard> {
     return Consumer<ThemeProvide>(
       builder: (context, themeProvider, child) {
         var themeId = themeProvider.value;
-        return Container(
-          margin: EdgeInsets.only(bottom: kDefaultPadding * 0.5),
-          padding: EdgeInsets.symmetric(
-            horizontal: kDefaultPadding,
-            vertical: kDefaultPadding * 0.6,
-          ),
-          width: size.width * 0.9,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      text: "${poetry['作者']}\n${poetry['朝代']}",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: themeColor[themeId]["textColor"],
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  Container(
-                    width: size.width * 0.5,
-                    child: Text(
-                      "${poetry['题目']}",
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  IconButton(
-                    onPressed: _pressCol,
-                    icon: SvgPicture.asset("assets/icons/heart.svg",
-                        height: 20,
-                        width: 20,
-                        color: isLike ? Colors.red : themeColor[themeId]['backgroundColor']),
-                  ),
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.only(top: kDefaultPadding * 0.5),
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    children: getContent(this.poetry),
-                    style: TextStyle(color: themeColor[themeId]['textColor']),
-                  ),
+        return GestureDetector(
+          onLongPress: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PoetryItemShowForCol(
+                  poetry: this.poetry,
                 ),
               ),
-            ],
-          ),
-          decoration: BoxDecoration(
-            color: themeColor[themeId]["primaryColor"],
-            borderRadius: BorderRadius.circular(10),
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.only(bottom: kDefaultPadding * 0.5),
+            padding: EdgeInsets.symmetric(
+              horizontal: kDefaultPadding,
+              vertical: kDefaultPadding * 0.6,
+            ),
+            width: size.width * 0.9,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: "${poetry['作者']}\n${poetry['朝代']}",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: themeColor[themeId]["textColor"],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    Container(
+                      width: size.width * 0.5,
+                      child: Text(
+                        "${poetry['题目']}",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    IconButton(
+                      onPressed: _pressCol,
+                      icon: SvgPicture.asset("assets/icons/heart.svg",
+                          height: 20,
+                          width: 20,
+                          color: isLike ? Colors.red : themeColor[themeId]['backgroundColor']),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: kDefaultPadding * 0.5),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      children: getContent(this.poetry),
+                      style: TextStyle(color: themeColor[themeId]['textColor']),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            decoration: BoxDecoration(
+              color: themeColor[themeId]["primaryColor"],
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         );
       },

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:Verses/utils.dart';
 import 'package:Verses/contants.dart';
 import 'package:flutter/services.dart';
+import 'dart:async';
+import 'dart:io';
+import 'dart:convert';
 
 class PoetryItemShowCard extends StatefulWidget {
   final Map<String, dynamic> poetry;
@@ -13,11 +16,19 @@ class PoetryItemShowCard extends StatefulWidget {
 
 class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
   int poetryShowType;
+  Widget collectionNumbers = Container();
+  Map<int, List<InlineSpan>> poeSave = Map<int, List<InlineSpan>>();
+  List<InlineSpan> poeShow;
+  String poetryStr;
+  Timer timer;
 
   void getPoetryShowType() async {
     this.poetryShowType =
         await SharedPreferencesUtil.getData<int>('poetryShowType') ?? PoetryShowTypes['normal'];
-    setState(() {});
+    setState(() {
+      poeSave[this.poetryShowType] = getContent(widget.poetry, poetryShowType: this.poetryShowType);
+      this.poeShow = poeSave[this.poetryShowType];
+    });
   }
 
   void updatePoetryShowType(String typeKey) async {
@@ -32,13 +43,66 @@ class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
           typeKey == 'fanti' ? PoetryShowTypes['pinyin'] : PoetryShowTypes['fanti'];
     }
     await SharedPreferencesUtil.setData<int>('poetryShowType', this.poetryShowType);
-    setState(() {});
+    setState(() {
+      if (!poeSave.containsKey(this.poetryShowType)) {
+        poeSave[this.poetryShowType] =
+            getContent(widget.poetry, poetryShowType: this.poetryShowType);
+      }
+      this.poeShow = poeSave[this.poetryShowType];
+    });
+  }
+
+  Future<String> updateCollectionNumbers() async {
+    var httpClient = HttpClient();
+    String url = urlPoetry + 'getlikes?poetrystr=' + this.poetryStr;
+    bool result = false;
+    var poetryCollectionNumbers;
+
+    try {
+      var request = await httpClient.getUrl(Uri.parse(url));
+      var response = await request.close();
+      if (response.statusCode == 200) {
+        var poetryResult = await response.transform(utf8.decoder).join();
+        poetryCollectionNumbers = json.decode(poetryResult);
+        result = true;
+      } else {
+        result = false;
+      }
+    } catch (exception) {
+      result = false;
+    }
+
+    if (result) {
+      return poetryCollectionNumbers[0]['收藏数'].toString();
+    }
+    return '';
+  }
+
+  void getCollectionNumbers() async {
+    await updateCollectionNumbers().then((String title) {
+      this.collectionNumbers = Text('收藏数：' + title);
+      setState(() {});
+    });
+    timer = Timer.periodic(Duration(seconds: 10), (Timer t) {
+      updateCollectionNumbers().then((String title) {
+        this.collectionNumbers = Text('收藏数：' + title);
+        setState(() {});
+      });
+    });
   }
 
   @override
   void initState() {
     super.initState();
+    this.poetryStr = poetryToString(widget.poetry);
     getPoetryShowType();
+    getCollectionNumbers();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -60,7 +124,7 @@ class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                        children: getContent(widget.poetry, poetryShowType: this.poetryShowType),
+                        children: poeShow,
                         style: TextStyle(
                           fontSize: 15,
                           color: themeColor[widget.themeId]['textColor'],
@@ -90,13 +154,15 @@ class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
                     updatePoetryShowType('pinyin');
                   },
                 ),
-                TextButton(
-                  child: Text('繁'),
-                  style: buttonForPoetryStyle(PoetryShowTypes['fanti'], size),
-                  onPressed: () {
-                    updatePoetryShowType('fanti');
-                  },
-                ),
+                //TextButton(
+                //child: Text('繁'),
+                //style: buttonForPoetryStyle(PoetryShowTypes['fanti'], size),
+                //onPressed: () {
+                //updatePoetryShowType('fanti');
+                //},
+                //),
+                Spacer(),
+                collectionNumbers,
                 Spacer(),
                 FlatButton(
                   height: size.height * 0.05,

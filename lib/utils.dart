@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lpinyin/lpinyin.dart';
+import 'package:Verses/contants.dart';
 
 const Map PoetryShowTypes = {'normal': 1, 'pinyin': 2, 'fanti': 3, 'all': 4};
 
@@ -69,6 +70,29 @@ List<InlineSpan> getContent(Map<String, dynamic> poetry, {int poetryShowType}) {
   return contents;
 }
 
+Future<bool> collectionOnline(String poetryStr, String status) async {
+  var httpClient = HttpClient();
+  String url = urlPoetry + 'getlikes?poetrystr=' + poetryStr + '&status=' + status;
+  bool result = false;
+  var poetryCollectionNumbers;
+
+  try {
+    var request = await httpClient.getUrl(Uri.parse(url));
+    var response = await request.close();
+    if (response.statusCode == 200) {
+      var poetryResult = await response.transform(utf8.decoder).join();
+      poetryCollectionNumbers = json.decode(poetryResult);
+      result = true;
+    } else {
+      result = false;
+    }
+  } catch (exception) {
+    result = false;
+  }
+
+  return result;
+}
+
 // 根据判断收藏  返回是否诗词现在状态
 Future<bool> collectionToggle(Map<String, dynamic> poetry) async {
   var res = await isPoetryCollection(poetry);
@@ -77,11 +101,13 @@ Future<bool> collectionToggle(Map<String, dynamic> poetry) async {
   if (res[0]) {
     // 如果文件存在  删除
     file.deleteSync();
+    await collectionOnline(poetryToString(poetry), 'remove');
     return false;
   } else {
     var cfile = await file.create();
     File wfile = await cfile.writeAsString(jsonEncode(poetry));
     if (wfile.existsSync()) {
+      await collectionOnline(poetryToString(poetry), 'add');
       return true;
     } else {
       return false;
