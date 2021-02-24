@@ -125,7 +125,7 @@ class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
                           style: TextStyle(color: themeColor[widget.themeId]['textColor']),
                         ),
                         duration: Duration(milliseconds: 500),
-                        backgroundColor: themeColor[widget.themeId]['primaryColor'],
+                        backgroundColor: themeColor[widget.themeId]['backgroundColor'],
                       ),
                     );
                   },
