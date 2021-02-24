@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/utils.dart';
 import 'package:Verses/contants.dart';
+import 'package:flutter/services.dart';
 
 class PoetryItemShowCard extends StatefulWidget {
   final Map<String, dynamic> poetry;
@@ -95,7 +96,40 @@ class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
                   onPressed: () {
                     updatePoetryShowType('fanti');
                   },
-                )
+                ),
+                Spacer(),
+                FlatButton(
+                  height: size.height * 0.05,
+                  minWidth: size.height * 0.06,
+                  padding: EdgeInsets.all(0),
+                  child: Icon(
+                    Icons.copy,
+                    size: size.height * 0.025,
+                    color: themeColor[widget.themeId]['textColor'],
+                  ),
+                  onPressed: () {
+                    Clipboard.setData(
+                      ClipboardData(
+                          text: widget.poetry['题目'] +
+                              '\n' +
+                              widget.poetry['作者'] +
+                              ' ' +
+                              widget.poetry['朝代'] +
+                              '\n' +
+                              widget.poetry['内容']),
+                    );
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          widget.poetry['题目'] + ' ' + VersesLocalizations.of(context).copied,
+                          style: TextStyle(color: themeColor[widget.themeId]['textColor']),
+                        ),
+                        duration: Duration(milliseconds: 500),
+                        backgroundColor: themeColor[widget.themeId]['primaryColor'],
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),

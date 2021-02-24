@@ -45,6 +45,7 @@ class VersesLocalizations {
       'title': 'Title(Separate multiple search terms with a space)',
       'content': 'Content(Separate multiple search terms with a space)',
       'dismissed': 'Dismissed!',
+      'copied': 'Copied!',
       'searchError': '数据库启动失败！',
       'searchWarning': '根据关键词无法找到相关诗词！',
       'searchWait': '稍等，正在查询中！',
@@ -61,6 +62,7 @@ class VersesLocalizations {
       'title': '题目(多个搜索词请用空格分开)',
       'content': '内容(多个搜索词请用空格分开)',
       'dismissed': '已被移除！',
+      'copied': '已复制！',
       'searchError': '数据库启动失败！',
       'searchWarning': '根据关键词无法找到相关诗词！',
       'searchWait': '稍等，正在查询中！',
@@ -106,6 +108,10 @@ class VersesLocalizations {
 
   String get dismissed {
     return _localizedValues[locale.languageCode]['dismissed'];
+  }
+
+  String get copied {
+    return _localizedValues[locale.languageCode]['copied'];
   }
 
   String get searchError {
