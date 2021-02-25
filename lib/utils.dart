@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lpinyin/lpinyin.dart';
 import 'package:Verses/contants.dart';
+import 'package:device_info/device_info.dart';
 
 const Map PoetryShowTypes = {'normal': 1, 'pinyin': 2, 'fanti': 3, 'all': 4};
 
@@ -91,6 +92,136 @@ Future<bool> collectionOnline(String poetryStr, String status) async {
   }
 
   return result;
+}
+
+Future<List<Map<String, dynamic>>> getComments(String poetryStr) async {
+  var httpClient = HttpClient();
+  String url = urlPoetry + 'getcomments?poetrystr=' + poetryStr;
+  bool result = false;
+  var searchComments;
+  List<Map<String, dynamic>> comments = List<Map<String, dynamic>>();
+
+  try {
+    var request = await httpClient.getUrl(Uri.parse(url));
+    var response = await request.close();
+    if (response.statusCode == 200) {
+      var commentsResult = await response.transform(utf8.decoder).join();
+      searchComments = json.decode(commentsResult);
+      result = true;
+    } else {
+      result = false;
+    }
+  } catch (exception) {
+    result = false;
+  }
+
+  if (!(!result ||
+      searchComments[0].containsKey('error') ||
+      searchComments[0].containsKey('warning') ||
+      searchComments[0].containsKey('prompt'))) {
+    for (var i = 0, len = searchComments.length; i < len; ++i) {
+      comments.add(searchComments[i]);
+    }
+  }
+
+  return comments;
+}
+
+Future<bool> addComment(String poetryStr, String phoneID, String comment) async {
+  String url = urlPoetry +
+      'getcomments?poetrystr=' +
+      poetryStr +
+      '&phoneid=' +
+      phoneID +
+      '&comment=' +
+      comment +
+      '&commentstatus=add';
+
+  return await urlClient(url);
+}
+
+Future<bool> urlClient(String url) async {
+  var httpClient = HttpClient();
+  bool result = false;
+  var searchResult;
+
+  try {
+    var request = await httpClient.getUrl(Uri.parse(url));
+    var response = await request.close();
+    if (response.statusCode == 200) {
+      var commentsResult = await response.transform(utf8.decoder).join();
+      searchResult = json.decode(commentsResult);
+      result = true;
+    } else {
+      result = false;
+    }
+  } catch (exception) {
+    result = false;
+  }
+
+  print(searchResult);
+  return result;
+}
+
+Future<bool> removeComment(
+  String poetryStr,
+  String phoneID,
+  String commentDate,
+  String comment,
+) async {
+  String url = urlPoetry +
+      'getcomments?poetrystr=' +
+      poetryStr +
+      '&phoneid=' +
+      phoneID +
+      '&commentdate=' +
+      commentDate +
+      '&comment=' +
+      comment +
+      '&commentstatus=remove';
+
+  print(url);
+
+  return await urlClient(url);
+}
+
+Future<bool> changeComment(
+  String poetryStr,
+  String phoneID,
+  String commentDate,
+  String comment,
+) async {
+  String url = urlPoetry +
+      'getcomments?poetrystr=' +
+      poetryStr +
+      '&phoneid=' +
+      phoneID +
+      '&commentdate=' +
+      commentDate +
+      '&comment=' +
+      comment +
+      '&commentstatus=change';
+
+  return await urlClient(url);
+}
+
+Future<bool> changeCommentLikeStatus(
+  String poetryStr,
+  String phoneID,
+  String commentDate,
+  String likeStatus,
+) async {
+  String url = urlPoetry +
+      'getcomments?poetrystr=' +
+      poetryStr +
+      '&phoneid=' +
+      phoneID +
+      '&commentdate=' +
+      commentDate +
+      '&likestatus=' +
+      likeStatus;
+
+  return await urlClient(url);
 }
 
 // 根据判断收藏  返回是否诗词现在状态
@@ -193,5 +324,16 @@ class SharedPreferencesUtil {
         break;
     }
     return res;
+  }
+}
+
+Future<String> getUniqueId() async {
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  if (Platform.isIOS) {
+    IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+    return iosDeviceInfo.identifierForVendor;
+  } else {
+    AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+    return androidDeviceInfo.androidId;
   }
 }

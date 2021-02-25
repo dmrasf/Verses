@@ -37,6 +37,7 @@ dependencies:
   crypto: ^2.1.5
   provider: ^4.3.2
   lpinyin: ^1.1.1
+  device_info: ^1.0.0
 
 dev_dependencies:
   flutter_test:

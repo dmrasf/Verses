@@ -79,7 +79,7 @@ class PoetryCardState extends State<PoetryCard> {
       builder: (context, themeProvider, child) {
         var themeId = themeProvider.value;
         return GestureDetector(
-          onLongPress: () {
+          onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(

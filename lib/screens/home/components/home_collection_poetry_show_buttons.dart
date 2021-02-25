@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
+import 'package:Verses/utils.dart';
+import 'package:Verses/screens/comments/comment_screen.dart';
 
 class CollectionPoetryShowButtons extends StatelessWidget {
   final int themeId;
@@ -51,7 +53,31 @@ class CollectionPoetryShowButtons extends StatelessWidget {
   }
 
   void funcPlay() {}
-  void funcComment() {}
+  void funcComment() async {
+    String phoneID = await getUniqueId();
+    showBottomSheet(
+      context: cnt,
+      backgroundColor: themeColor[this.themeId]['commentBackgroundColor'],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          height: this.size.height * 0.7,
+          width: this.size.width,
+          child: CommentScreen(
+            phoneID: phoneID,
+            themeId: this.themeId,
+            poetryStr: poetryToString(this.poetry),
+          ),
+        );
+      },
+    );
+  }
+
   void funcFeedback() {}
   void funcShare() {}
 }

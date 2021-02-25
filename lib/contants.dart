@@ -13,6 +13,7 @@ const Map themeColor = {
     'buttonColor': Colors.black,
     'textColor': Colors.black,
     'buttonSvg': 'assets/icons/moon.svg',
+    'commentBackgroundColor': Color(0xffe9e9eb),
   },
   1: {
     //black
@@ -21,6 +22,7 @@ const Map themeColor = {
     'buttonColor': Colors.white,
     'textColor': Colors.white,
     'buttonSvg': 'assets/icons/sun.svg',
+    'commentBackgroundColor': Color(0xff161820),
   },
 };
 
@@ -50,6 +52,14 @@ class VersesLocalizations {
       'searchWarning': '根据关键词无法找到相关诗词！',
       'searchWait': '稍等，正在查询中！',
       'searchReinput': '请重新输入搜索词！',
+      'likesNum': 'Number of Likes: ',
+      'commentsNum': 'Number of Comments: ',
+      'commentsNew': 'Latest Comments',
+      'commentsTop': 'Top Comments',
+      'noComments': 'No Comments',
+      'inputComment': 'Input Comment',
+      'deleteComment': 'Delete',
+      'changeComment': 'Change',
     },
     'zh': {
       'heading': '诗词搜索',
@@ -67,6 +77,14 @@ class VersesLocalizations {
       'searchWarning': '根据关键词无法找到相关诗词！',
       'searchWait': '稍等，正在查询中！',
       'searchReinput': '请重新输入搜索词！',
+      'likesNum': '收藏数：',
+      'commentsNum': '评论数：',
+      'commentsNew': '最新评论',
+      'commentsTop': '热门评论',
+      'noComments': '没有评论',
+      'inputComment': '输入评论',
+      'deleteComment': '删除',
+      'changeComment': '更改',
     },
   };
 
@@ -128,6 +146,38 @@ class VersesLocalizations {
 
   String get searchReinput {
     return _localizedValues[locale.languageCode]['searchReinput'];
+  }
+
+  String get likesNum {
+    return _localizedValues[locale.languageCode]['likesNum'];
+  }
+
+  String get commentsNum {
+    return _localizedValues[locale.languageCode]['commentsNum'];
+  }
+
+  String get commentsNew {
+    return _localizedValues[locale.languageCode]['commentsNew'];
+  }
+
+  String get commentsTop {
+    return _localizedValues[locale.languageCode]['commentsTop'];
+  }
+
+  String get noComments {
+    return _localizedValues[locale.languageCode]['noComments'];
+  }
+
+  String get inputComment {
+    return _localizedValues[locale.languageCode]['inputComment'];
+  }
+
+  String get deleteComment {
+    return _localizedValues[locale.languageCode]['deleteComment'];
+  }
+
+  String get changeComment {
+    return _localizedValues[locale.languageCode]['changeComment'];
   }
 }
 

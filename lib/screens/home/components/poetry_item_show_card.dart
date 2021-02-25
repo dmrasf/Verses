@@ -19,6 +19,7 @@ class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
   Widget collectionNumbers = Container();
   Map<int, List<InlineSpan>> poeSave = Map<int, List<InlineSpan>>();
   List<InlineSpan> poeShow;
+  BuildContext cnt;
   String poetryStr;
   Timer timer;
 
@@ -80,12 +81,12 @@ class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
 
   void getCollectionNumbers() async {
     await updateCollectionNumbers().then((String title) {
-      this.collectionNumbers = Text('收藏数：' + title);
+      this.collectionNumbers = Text(VersesLocalizations.of(cnt).likesNum + title);
       setState(() {});
     });
     timer = Timer.periodic(Duration(seconds: 10), (Timer t) {
       updateCollectionNumbers().then((String title) {
-        this.collectionNumbers = Text('收藏数：' + title);
+        this.collectionNumbers = Text(VersesLocalizations.of(cnt).likesNum + title);
         setState(() {});
       });
     });
@@ -93,10 +94,10 @@ class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
 
   @override
   void initState() {
-    super.initState();
     this.poetryStr = poetryToString(widget.poetry);
     getPoetryShowType();
     getCollectionNumbers();
+    super.initState();
   }
 
   @override
@@ -107,6 +108,7 @@ class _PoetryItemShowCardState extends State<PoetryItemShowCard> {
 
   @override
   Widget build(BuildContext context) {
+    this.cnt = context;
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.all(10),
