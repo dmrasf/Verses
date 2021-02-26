@@ -82,17 +82,23 @@ class _CommentsListViewState extends State<CommentsListView> {
           ),
           Expanded(
             child: Container(
-              child: ListView.builder(
-                itemCount: widget.comments.length,
-                itemBuilder: (context, index) {
-                  return CommentListItem(
-                    comment: widget.comments[index],
-                    themeId: widget.themeId,
-                    phoneID: widget.phoneID,
-                    poetryStr: widget.poetryStr,
-                    updateComments: widget.updateComments,
-                  );
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  widget.updateComments();
+                  await Future.delayed(Duration(seconds: 1));
                 },
+                child: ListView.builder(
+                  itemCount: widget.comments.length,
+                  itemBuilder: (context, index) {
+                    return CommentListItem(
+                      comment: widget.comments[index],
+                      themeId: widget.themeId,
+                      phoneID: widget.phoneID,
+                      poetryStr: widget.poetryStr,
+                      updateComments: widget.updateComments,
+                    );
+                  },
+                ),
               ),
             ),
           ),

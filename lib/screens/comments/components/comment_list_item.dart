@@ -51,7 +51,41 @@ class _CommentListItemState extends State<CommentListItem> {
             widget.comment['评论时间'],
             widget.comment['评论'],
           );
-        } else {}
+        } else {
+          showDialog(
+            context: cnt,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('ew'),
+                titleTextStyle: TextStyle(
+                  color: Colors.red,
+                ),
+                content: Container(
+                  child: Column(
+                    children: [
+                      Container(),
+                      Row(
+                        children: [
+                          Container(),
+                          Container(),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+          String newComment = 'change';
+          if (newComment != widget.comment['评论']) {
+            await changeComment(
+              widget.poetryStr,
+              widget.phoneID,
+              widget.comment['评论时间'],
+              newComment,
+            );
+          }
+        }
         widget.updateComments();
       },
     );
@@ -105,7 +139,6 @@ class _CommentListItemState extends State<CommentListItem> {
     this.cnt = context;
     getToolButtons();
     return Container(
-      //color: themeColor[widget.themeId]['primaryColor'],
       margin: EdgeInsets.only(left: 5, right: 5, top: 10),
       padding: EdgeInsets.only(left: 8, right: 8, top: 0),
       child: Column(
