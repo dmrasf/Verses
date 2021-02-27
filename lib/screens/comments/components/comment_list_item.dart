@@ -29,6 +29,81 @@ class _CommentListItemState extends State<CommentListItem> {
   Size size;
   bool tmpLikes = false;
 
+  Future<String> getNewComment(String oldComment) async {
+    var controller = TextEditingController();
+    String newComment = '';
+    controller.text = oldComment;
+    await showDialog(
+      context: cnt,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(VersesLocalizations.of(cnt).changeComment),
+          titleTextStyle: TextStyle(
+            color: themeColor[widget.themeId]['textColor'],
+            fontWeight: FontWeight.bold,
+          ),
+          backgroundColor: themeColor[widget.themeId]['primaryColor'],
+          contentPadding: EdgeInsets.only(bottom: 2, left: 24, right: 24, top: 20),
+          content: Container(
+            height: this.size.height * 0.2,
+            width: this.size.width * 0.7,
+            child: Column(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: controller,
+                    textInputAction: TextInputAction.newline,
+                    maxLines: 3,
+                    minLines: 1,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(3)),
+                        borderSide: BorderSide(color: themeColor[widget.themeId]['textColor']),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(3)),
+                        borderSide: BorderSide(color: themeColor[widget.themeId]['textColor']),
+                      ),
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        child: Text(
+                          VersesLocalizations.of(cnt).cancel,
+                          style: TextStyle(color: themeColor[widget.themeId]['textColor']),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: TextButton(
+                        child: Text(
+                          VersesLocalizations.of(cnt).confirm,
+                          style: TextStyle(color: themeColor[widget.themeId]['textColor']),
+                        ),
+                        onPressed: () {
+                          newComment = controller.text;
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    return newComment;
+  }
+
   Widget getToolButton(String fuc) {
     return GestureDetector(
       child: Container(
@@ -52,32 +127,8 @@ class _CommentListItemState extends State<CommentListItem> {
             widget.comment['评论'],
           );
         } else {
-          showDialog(
-            context: cnt,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('ew'),
-                titleTextStyle: TextStyle(
-                  color: Colors.red,
-                ),
-                content: Container(
-                  child: Column(
-                    children: [
-                      Container(),
-                      Row(
-                        children: [
-                          Container(),
-                          Container(),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-          String newComment = 'change';
-          if (newComment != widget.comment['评论']) {
+          String newComment = await getNewComment(widget.comment['评论']);
+          if (newComment != widget.comment['评论'] && newComment != '') {
             await changeComment(
               widget.poetryStr,
               widget.phoneID,

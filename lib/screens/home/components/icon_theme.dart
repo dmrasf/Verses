@@ -28,7 +28,6 @@ class _IconChangeTheme extends State<IconChangeTheme> {
         var themeId = themeProvider.value;
         return IconButton(
           iconSize: 8,
-          // 切换主题
           onPressed: changeTheme,
           icon: SvgPicture.asset(
             themeColor[themeId]['buttonSvg'],

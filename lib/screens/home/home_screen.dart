@@ -12,18 +12,24 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _buildAppBar(context),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: [
-                TitleAndSearch(),
-                TodayPoetryAndMore(),
-                PoetryCard(key: keyValue),
-              ],
-            ),
+      appBar: _buildAppBar(context),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              TitleAndSearch(),
+              TodayPoetryAndMore(),
+              PoetryCard(key: keyValue),
+            ],
           ),
-        ));
+        ),
+      ),
+      floatingActionButton: IconButton(
+        icon: Icon(Icons.home),
+        onPressed: () {},
+        color: Colors.white,
+      ),
+    );
   }
 
   AppBar _buildAppBar(BuildContext context) {

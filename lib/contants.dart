@@ -60,6 +60,8 @@ class VersesLocalizations {
       'inputComment': 'Input Comment',
       'deleteComment': 'Delete',
       'changeComment': 'Change',
+      'confirm': 'Confirm',
+      'cancel': 'Cancel',
       'noNetWork': 'No NetWork',
     },
     'zh': {
@@ -86,6 +88,8 @@ class VersesLocalizations {
       'inputComment': '输入评论',
       'deleteComment': '删除',
       'changeComment': '更改',
+      'confirm': '确认',
+      'cancel': '取消',
       'noNetWork': '没有网络连接',
     },
   };
@@ -180,6 +184,14 @@ class VersesLocalizations {
 
   String get changeComment {
     return _localizedValues[locale.languageCode]['changeComment'];
+  }
+
+  String get confirm {
+    return _localizedValues[locale.languageCode]['confirm'];
+  }
+
+  String get cancel {
+    return _localizedValues[locale.languageCode]['cancel'];
   }
 
   String get noNetWork {
