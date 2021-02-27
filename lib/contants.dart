@@ -60,6 +60,7 @@ class VersesLocalizations {
       'inputComment': 'Input Comment',
       'deleteComment': 'Delete',
       'changeComment': 'Change',
+      'noNetWork': 'No NetWork',
     },
     'zh': {
       'heading': '诗词搜索',
@@ -85,6 +86,7 @@ class VersesLocalizations {
       'inputComment': '输入评论',
       'deleteComment': '删除',
       'changeComment': '更改',
+      'noNetWork': '没有网络连接',
     },
   };
 
@@ -178,6 +180,10 @@ class VersesLocalizations {
 
   String get changeComment {
     return _localizedValues[locale.languageCode]['changeComment'];
+  }
+
+  String get noNetWork {
+    return _localizedValues[locale.languageCode]['noNetWork'];
   }
 }
 

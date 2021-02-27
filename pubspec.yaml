@@ -38,6 +38,7 @@ dependencies:
   provider: ^4.3.2
   lpinyin: ^1.1.1
   device_info: ^1.0.0
+  connectivity: ^2.0.2
 
 dev_dependencies:
   flutter_test:
