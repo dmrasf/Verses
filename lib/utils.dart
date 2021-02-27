@@ -224,6 +224,60 @@ Future<bool> changeCommentLikeStatus(
   return await urlClient(url);
 }
 
+Future<List<Map<String, dynamic>>> getPoetry(
+  String authorString,
+  String titleString,
+  String dynastyString,
+  String contentString,
+  String block,
+) async {
+  var url = urlPoetry + 'search?';
+  if (authorString.length > 0) {
+    url = url + 'author=' + authorString + '&';
+  }
+  if (titleString.length > 0) {
+    url = url + 'title=' + titleString + '&';
+  }
+  if (dynastyString.length > 0) {
+    url = url + 'dynasty=' + dynastyString + '&';
+  }
+  if (contentString.length > 0) {
+    url = url + 'content=' + contentString + '&';
+  }
+  if (block.length > 0) {
+    url = url + 'block=' + block + '&';
+  }
+  if (url[url.length - 1] == '&') {
+    url = url.substring(0, url.length - 1);
+  }
+
+  List<Map<String, dynamic>> poetries = List<Map<String, dynamic>>();
+  bool result = false;
+  var searchPoetry;
+
+  var httpClient = HttpClient();
+  try {
+    var request = await httpClient.getUrl(Uri.parse(url));
+    var response = await request.close();
+    if (response.statusCode == 200) {
+      var commentsResult = await response.transform(utf8.decoder).join();
+      searchPoetry = json.decode(commentsResult);
+      result = true;
+    } else {
+      result = false;
+    }
+  } catch (exception) {
+    result = false;
+  }
+
+  if (result) {
+    for (var i = 0, len = searchPoetry.length; i < len; ++i) {
+      poetries.add(searchPoetry[i]);
+    }
+  }
+  return poetries;
+}
+
 // 根据判断收藏  返回是否诗词现在状态
 Future<bool> collectionToggle(Map<String, dynamic> poetry) async {
   var res = await isPoetryCollection(poetry);

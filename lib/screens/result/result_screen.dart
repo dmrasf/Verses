@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:Verses/contants.dart';
-import 'dart:io';
 import 'package:Verses/components/poetry_list_and_item.dart';
 import 'package:Verses/screens/result/components/poetry_item_show.dart';
 import 'package:Verses/screens/result/components/search_remind.dart';
+import 'package:Verses/utils.dart';
 
 class ResultScreen extends StatefulWidget {
   final String authorString;
@@ -38,6 +36,8 @@ class ResultScreenState extends State<ResultScreen> {
   // 存放搜索到的诗词
   List<Map<String, dynamic>> poetries = [];
   Widget body;
+  ScrollController scrollController = ScrollController();
+  int scrollListenerLock = 0;
 
   ResultScreenState({
     this.authorString,
@@ -49,83 +49,89 @@ class ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
     super.initState();
-    getPoetry(true);
+    updatePoetry();
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent &&
+          scrollListenerLock == 0) {
+        scrollListenerLock = 1;
+        await updatePoetries();
+        scrollListenerLock = 0;
+      }
+    });
   }
 
-  void getPoetry(bool isDay) async {
-    var httpClient = HttpClient();
-    bool isRightUrl = false;
-
-    // 生成url
-    var url = urlPoetry + 'search?';
-    if (this.authorString.length > 0) {
-      url = url + 'author=' + this.authorString + '&';
-    }
-    if (this.titleString.length > 0) {
-      url = url + 'title=' + this.titleString + '&';
-    }
-    if (this.dynastyString.length > 0) {
-      url = url + 'dynasty=' + this.dynastyString + '&';
-    }
-    if (this.contentString.length > 0) {
-      url = url + 'content=' + this.contentString + '&';
-    }
-
-    if (url[url.length - 1] == '&') {
-      url = url.substring(0, url.length - 1);
-      isRightUrl = true;
-    }
-
-    bool result = false;
-    var searchPoetry;
-
-    if (isRightUrl) {
-      setState(() {
-        this.body = SearchRemind(reminds: "稍等，正在查询中！");
-      });
-      try {
-        var request = await httpClient.getUrl(Uri.parse(url));
-        var response = await request.close();
-        if (response.statusCode == 200) {
-          var poetryResult = await response.transform(utf8.decoder).join();
-          searchPoetry = json.decode(poetryResult);
-          result = true;
-        } else {
-          result = false;
-        }
-      } catch (exception) {
-        result = false;
-      }
-    }
-
-    if (result && searchPoetry[0].containsKey('error')) {
-      setState(() {
-        this.body = SearchRemind(reminds: searchPoetry[0]['error']);
-      });
-    } else if (result && searchPoetry[0].containsKey('warning')) {
-      setState(() {
-        this.body = SearchRemind(reminds: searchPoetry[0]['warning']);
-      });
-    } else if (result) {
+  Future<void> updatePoetries() async {
+    List<Map<String, dynamic>> searchPoetry;
+    int block = (this.poetries.length - 1) ~/ 50 + 1;
+    searchPoetry = await getPoetry(
+      this.authorString,
+      this.titleString,
+      this.dynastyString,
+      this.contentString,
+      block.toString(),
+    );
+    if (!searchPoetry[0].containsKey('error') &&
+        searchPoetry.length > 0 &&
+        !searchPoetry[0].containsKey('warning')) {
       for (var i = 0, len = searchPoetry.length; i < len; ++i) {
         this.poetries.add(searchPoetry[i]);
       }
-      setState(() {
-        this.body = PoetryListView(
-          poetries: this.poetries,
-          poetryItem: (poetry) => PoetryItemShow(poetry: poetry),
-        );
-      });
-    } else {
-      setState(() {
-        this.body = SearchRemind(reminds: "请重新输入搜索词！");
-      });
     }
+    this.body = getListPoetry();
+    setState(() {});
+  }
+
+  void updatePoetry() async {
+    List<Map<String, dynamic>> searchPoetry;
+
+    setState(() {
+      this.body = SearchRemind(reminds: "稍等，正在查询中！");
+    });
+    searchPoetry = await getPoetry(
+      this.authorString,
+      this.titleString,
+      this.dynastyString,
+      this.contentString,
+      '0',
+    );
+    if (searchPoetry[0].containsKey('error')) {
+      this.body = SearchRemind(reminds: searchPoetry[0]['error']);
+    } else if (searchPoetry.length == 0 || searchPoetry[0].containsKey('warning')) {
+      this.body = SearchRemind(reminds: searchPoetry[0]['warning']);
+    } else {
+      for (var i = 0, len = searchPoetry.length; i < len; ++i) {
+        this.poetries.add(searchPoetry[i]);
+      }
+      this.body = getListPoetry();
+    }
+    setState(() {});
+  }
+
+  Widget getListPoetry() {
+    return Scrollbar(
+      child: ListView.builder(
+        controller: this.scrollController,
+        itemCount: this.poetries.length,
+        itemBuilder: (context, index) {
+          return PoetryListItem(
+            poetry: this.poetries[index],
+            poetryItem: (poetry) => PoetryItemShow(poetry: poetry),
+          );
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          '找到 ' + this.poetries.length.toString() + ' 首',
+          style: TextStyle(fontSize: 12),
+        ),
+        centerTitle: true,
+      ),
       body: this.body,
     );
   }

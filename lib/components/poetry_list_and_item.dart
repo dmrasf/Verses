@@ -3,38 +3,6 @@ import 'package:Verses/contants.dart';
 import 'package:provider/provider.dart';
 import 'package:Verses/utils.dart';
 
-class PoetryListView extends StatelessWidget {
-  final List<Map<String, dynamic>> poetries;
-  final Function poetryItem;
-
-  PoetryListView({Key key, this.poetries, this.poetryItem}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: BouncingScrollPhysics(),
-      slivers: [
-        SliverAppBar(
-          pinned: true,
-          title: Text(
-            '找到 ' + this.poetries.length.toString() + ' 首',
-            style: TextStyle(fontSize: 12),
-          ),
-          centerTitle: true,
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate((context, index) {
-            return PoetryListItem(
-              poetry: this.poetries[index],
-              poetryItem: this.poetryItem,
-            );
-          }, childCount: this.poetries.length),
-        ),
-      ],
-    );
-  }
-}
-
 class CollectionPoetryListView extends StatelessWidget {
   final List<Map<String, dynamic>> poetries;
   final Function poetryItem;
