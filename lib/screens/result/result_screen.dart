@@ -63,7 +63,7 @@ class ResultScreenState extends State<ResultScreen> {
   Future<void> updatePoetries() async {
     List<Map<String, dynamic>> searchPoetry;
     int block = (this.poetries.length - 1) ~/ 50 + 1;
-    searchPoetry = await getPoetry(
+    searchPoetry = await getPoetries(
       this.authorString,
       this.titleString,
       this.dynastyString,
@@ -87,7 +87,7 @@ class ResultScreenState extends State<ResultScreen> {
     setState(() {
       this.body = SearchRemind(reminds: "稍等，正在查询中！");
     });
-    searchPoetry = await getPoetry(
+    searchPoetry = await getPoetries(
       this.authorString,
       this.titleString,
       this.dynastyString,

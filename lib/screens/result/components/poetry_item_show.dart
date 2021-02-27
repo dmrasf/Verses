@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Verses/contants.dart';
-import 'package:Verses/screens/home/components/poetry_item_show_card.dart';
+import 'package:Verses/components/poetry_item_show_card.dart';
 import 'package:Verses/screens/result/components/search_poetry_show_like_button.dart';
 
 class PoetryItemShow extends StatelessWidget {

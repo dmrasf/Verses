@@ -5,8 +5,7 @@ import 'package:Verses/screens/home/components/home_communication.dart';
 
 class TodayPoetryAndMore extends StatelessWidget {
   void _press() {
-    // 使用global key 进行组件间通信
-    keyValue.currentState.getPoetry(false);
+    keyValue.currentState.getDayPoetry(false);
   }
 
   @override

@@ -8,8 +8,6 @@ import 'package:lpinyin/lpinyin.dart';
 import 'package:Verses/contants.dart';
 import 'package:device_info/device_info.dart';
 
-const Map PoetryShowTypes = {'normal': 1, 'pinyin': 2, 'fanti': 3, 'all': 4};
-
 List<InlineSpan> getContent(Map<String, dynamic> poetry, {int poetryShowType}) {
   String content = poetry["内容"];
   String pattern = "。：？；！";
@@ -159,7 +157,6 @@ Future<bool> urlClient(String url) async {
     result = false;
   }
 
-  print(searchResult);
   return result;
 }
 
@@ -179,8 +176,6 @@ Future<bool> removeComment(
       '&comment=' +
       comment +
       '&commentstatus=remove';
-
-  print(url);
 
   return await urlClient(url);
 }
@@ -224,7 +219,7 @@ Future<bool> changeCommentLikeStatus(
   return await urlClient(url);
 }
 
-Future<List<Map<String, dynamic>>> getPoetry(
+Future<List<Map<String, dynamic>>> getPoetries(
   String authorString,
   String titleString,
   String dynastyString,
@@ -232,24 +227,12 @@ Future<List<Map<String, dynamic>>> getPoetry(
   String block,
 ) async {
   var url = urlPoetry + 'search?';
-  if (authorString.length > 0) {
-    url = url + 'author=' + authorString + '&';
-  }
-  if (titleString.length > 0) {
-    url = url + 'title=' + titleString + '&';
-  }
-  if (dynastyString.length > 0) {
-    url = url + 'dynasty=' + dynastyString + '&';
-  }
-  if (contentString.length > 0) {
-    url = url + 'content=' + contentString + '&';
-  }
-  if (block.length > 0) {
-    url = url + 'block=' + block + '&';
-  }
-  if (url[url.length - 1] == '&') {
-    url = url.substring(0, url.length - 1);
-  }
+  if (authorString.length > 0) url = url + 'author=' + authorString + '&';
+  if (titleString.length > 0) url = url + 'title=' + titleString + '&';
+  if (dynastyString.length > 0) url = url + 'dynasty=' + dynastyString + '&';
+  if (contentString.length > 0) url = url + 'content=' + contentString + '&';
+  if (block.length > 0) url = url + 'block=' + block + '&';
+  if (url[url.length - 1] == '&') url = url.substring(0, url.length - 1);
 
   List<Map<String, dynamic>> poetries = List<Map<String, dynamic>>();
   bool result = false;
@@ -276,6 +259,35 @@ Future<List<Map<String, dynamic>>> getPoetry(
     }
   }
   return poetries;
+}
+
+Future<Map<String, dynamic>> getPoetry(bool isDay) async {
+  Map<String, dynamic> poetry = Map<String, dynamic>();
+  var url = urlPoetry + 'randomDay';
+  bool result = false;
+  var todayPoetry;
+  print(url);
+  if (!isDay) {
+    url = urlPoetry + 'random';
+  }
+
+  var httpClient = HttpClient();
+  try {
+    var request = await httpClient.getUrl(Uri.parse(url));
+    var response = await request.close();
+    if (response.statusCode == 200) {
+      var poetryResult = await response.transform(utf8.decoder).join();
+      todayPoetry = json.decode(poetryResult);
+      result = true;
+    } else {
+      result = false;
+    }
+  } catch (exception) {
+    result = false;
+  }
+  if (result && todayPoetry.length > 0) poetry = todayPoetry[0];
+
+  return poetry;
 }
 
 // 根据判断收藏  返回是否诗词现在状态

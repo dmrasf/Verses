@@ -1,34 +1,27 @@
-import 'package:Verses/components/poetry_list_and_item.dart';
-import 'package:Verses/screens/home/components/poetry_item_show_col.dart';
-import 'package:Verses/screens/home/components/home_collection_grid_view.dart';
+import 'package:Verses/screens/collection/components/grid_view.dart';
+import 'package:Verses/screens/collection/components/list_view.dart';
+import 'package:Verses/screens/collection/components/poetry_item_show.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Verses/utils.dart';
 import 'package:Verses/contants.dart';
 
-const Map PairTypes = {'addtime': 1, 'addtimeN': 2, 'author': 3, 'dynasty': 4};
-
 class CollectionListView extends StatefulWidget {
   final List<Map<String, dynamic>> poetries;
-
   CollectionListView({Key key, this.poetries}) : super(key: key);
-
   @override
-  _CollectionListViewState createState() => _CollectionListViewState(poetries: this.poetries);
+  _CollectionListViewState createState() => _CollectionListViewState();
 }
 
 class _CollectionListViewState extends State<CollectionListView> {
-  List<Map<String, dynamic>> poetries;
   var pairType;
 
-  _CollectionListViewState({this.poetries});
-
-  void getPairType() async {
+  void _getPairType() async {
     this.pairType = await SharedPreferencesUtil.getData<int>('pairType') ?? PairTypes['addtime'];
     setState(() {});
   }
 
-  void updatePairType(int pt) async {
+  void _updatePairType(int pt) async {
     if (pt == PairTypes['addtime']) {
       if (this.pairType == PairTypes['addtime']) {
         this.pairType = PairTypes['addtimeN'];
@@ -50,7 +43,7 @@ class _CollectionListViewState extends State<CollectionListView> {
   @override
   void initState() {
     super.initState();
-    getPairType();
+    _getPairType();
   }
 
   @override
@@ -58,12 +51,15 @@ class _CollectionListViewState extends State<CollectionListView> {
     return Consumer<ThemeProvide>(
       builder: (context, themeProvider, child) {
         var themeId = themeProvider.value;
-        return Scaffold(appBar: buildAppBar(themeId), body: getCollectionView(themeId));
+        return Scaffold(
+          appBar: _buildAppBar(themeId),
+          body: getCollectionView(themeId),
+        );
       },
     );
   }
 
-  AppBar buildAppBar(var themeId) {
+  AppBar _buildAppBar(var themeId) {
     return AppBar(
       actions: [
         FlatButton(
@@ -72,7 +68,7 @@ class _CollectionListViewState extends State<CollectionListView> {
             style: TextStyle(color: themeColor[themeId]["textColor"]),
           ),
           onPressed: () {
-            updatePairType(PairTypes['addtime']);
+            _updatePairType(PairTypes['addtime']);
           },
         ),
         FlatButton(
@@ -81,7 +77,7 @@ class _CollectionListViewState extends State<CollectionListView> {
             style: TextStyle(color: themeColor[themeId]["textColor"]),
           ),
           onPressed: () {
-            updatePairType(PairTypes['author']);
+            _updatePairType(PairTypes['author']);
           },
         ),
         FlatButton(
@@ -90,7 +86,7 @@ class _CollectionListViewState extends State<CollectionListView> {
             style: TextStyle(color: themeColor[themeId]["textColor"]),
           ),
           onPressed: () {
-            updatePairType(PairTypes['dynasty']);
+            _updatePairType(PairTypes['dynasty']);
           },
         ),
       ],
@@ -98,30 +94,30 @@ class _CollectionListViewState extends State<CollectionListView> {
   }
 
   void updatePoetries(Map<String, dynamic> poetry) {
-    this.poetries.remove(poetry);
+    widget.poetries.remove(poetry);
     setState(() {});
   }
 
   Widget getCollectionView(var themeId) {
-    if (poetries.length == 0) {
+    if (widget.poetries.length == 0) {
       return Center(child: Image(image: AssetImage('assets/imgs/empty.png')));
     }
     if (this.pairType == PairTypes['author']) {
       return CollectionGridView(
         pairType: '作者',
-        poetries: this.poetries,
+        poetries: widget.poetries,
         updatePoetriesForParent: this.updatePoetries,
       );
     } else if (this.pairType == PairTypes['dynasty']) {
       return CollectionGridView(
         pairType: '朝代',
-        poetries: this.poetries,
+        poetries: widget.poetries,
         updatePoetriesForParent: this.updatePoetries,
       );
     } else {
-      var tmpPoetries = poetries;
+      var tmpPoetries = widget.poetries;
       if (this.pairType == PairTypes['addtimeN']) {
-        tmpPoetries = this.poetries.reversed.toList();
+        tmpPoetries = widget.poetries.reversed.toList();
       }
       return CollectionPoetryListView(
         poetries: tmpPoetries,

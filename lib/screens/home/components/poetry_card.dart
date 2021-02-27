@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:Verses/contants.dart';
 import 'package:Verses/utils.dart';
-import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:Verses/screens/home/components/poetry_item_show_col.dart';
+import 'package:Verses/screens/collection/components/poetry_item_show.dart';
 
 class PoetryCard extends StatefulWidget {
   PoetryCard({Key key}) : super(key: key);
-
   @override
   State<StatefulWidget> createState() {
     return PoetryCardState();
@@ -17,54 +14,27 @@ class PoetryCard extends StatefulWidget {
 }
 
 class PoetryCardState extends State<PoetryCard> {
-  Map<String, dynamic> poetry = Map<String, dynamic>();
-  bool isLike = false;
+  Map<String, dynamic> _poetry = Map<String, dynamic>();
+  bool _isLike = false;
 
   @override
   void initState() {
     super.initState();
-    getPoetry(true);
+    getDayPoetry(true);
   }
 
-  // 获取每天随机的诗词
-  void getPoetry(bool isDay) async {
-    var httpClient = HttpClient();
-    var url = urlPoetry + 'randomDay';
-    print(url);
-    if (!isDay) {
-      url = urlPoetry + 'random';
-    }
-    bool result = false;
-    var todayPoetry;
-
-    try {
-      var request = await httpClient.getUrl(Uri.parse(url));
-      var response = await request.close();
-      if (response.statusCode == 200) {
-        var poetryResult = await response.transform(utf8.decoder).join();
-        todayPoetry = json.decode(poetryResult);
-        result = true;
-      } else {
-        result = false;
-      }
-    } catch (exception) {
-      result = false;
-    }
-
-    // 如果成功
-    if (result && todayPoetry.length > 0) {
-      // 将红心变成红色
-      this.isLike = (await isPoetryCollection(todayPoetry[0]))[0];
-      setState(() {
-        this.poetry = todayPoetry[0];
-      });
+  void getDayPoetry(bool isDay) async {
+    Map<String, dynamic> tmp = await getPoetry(isDay);
+    if (tmp.isNotEmpty) {
+      this._poetry = tmp;
+      this._isLike = (await isPoetryCollection(this._poetry))[0];
+      setState(() {});
     }
   }
 
-  // 收藏诗词
   void _pressCol() async {
     // 读取保存的文件
-    this.isLike = await collectionToggle(this.poetry);
+    this._isLike = await collectionToggle(this._poetry);
     setState(() {});
   }
 
@@ -72,7 +42,7 @@ class PoetryCardState extends State<PoetryCard> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // 如果没有诗词不显示卡片
-    if (this.poetry.isEmpty) {
+    if (this._poetry.isEmpty) {
       return Container();
     }
     return Consumer<ThemeProvide>(
@@ -84,7 +54,7 @@ class PoetryCardState extends State<PoetryCard> {
               context,
               MaterialPageRoute(
                 builder: (context) => PoetryItemShowForCol(
-                  poetry: this.poetry,
+                  poetry: this._poetry,
                 ),
               ),
             );
@@ -102,7 +72,7 @@ class PoetryCardState extends State<PoetryCard> {
                   children: [
                     RichText(
                       text: TextSpan(
-                        text: "${poetry['作者']}\n${poetry['朝代']}",
+                        text: "${_poetry['作者']}\n${_poetry['朝代']}",
                         style: TextStyle(
                           fontSize: 12,
                           color: themeColor[themeId]["textColor"],
@@ -114,7 +84,7 @@ class PoetryCardState extends State<PoetryCard> {
                     Container(
                       width: size.width * 0.5,
                       child: Text(
-                        "${poetry['题目']}",
+                        "${_poetry['题目']}",
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
@@ -127,7 +97,7 @@ class PoetryCardState extends State<PoetryCard> {
                       icon: SvgPicture.asset("assets/icons/heart.svg",
                           height: 20,
                           width: 20,
-                          color: isLike ? Colors.red : themeColor[themeId]['backgroundColor']),
+                          color: _isLike ? Colors.red : themeColor[themeId]['backgroundColor']),
                     ),
                   ],
                 ),
@@ -136,7 +106,7 @@ class PoetryCardState extends State<PoetryCard> {
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      children: getContent(this.poetry),
+                      children: getContent(this._poetry),
                       style: TextStyle(color: themeColor[themeId]['textColor']),
                     ),
                   ),

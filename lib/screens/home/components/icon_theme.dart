@@ -12,7 +12,7 @@ class IconChangeTheme extends StatefulWidget {
 }
 
 class _IconChangeTheme extends State<IconChangeTheme> {
-  void changeTheme() async {
+  void _changeTheme() async {
     bool isDark = await SharedPreferencesUtil.getData<bool>('theme') ?? false;
     setState(() {
       Provider.of<ThemeProvide>(context, listen: false).setTheme(isDark ? 0 : 1);
@@ -28,7 +28,7 @@ class _IconChangeTheme extends State<IconChangeTheme> {
         var themeId = themeProvider.value;
         return IconButton(
           iconSize: 8,
-          onPressed: changeTheme,
+          onPressed: _changeTheme,
           icon: SvgPicture.asset(
             themeColor[themeId]['buttonSvg'],
             height: 20,

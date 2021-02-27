@@ -55,7 +55,11 @@ class TitleAndSearch extends StatelessWidget {
                   highlightColor: Colors.transparent,
                   onPressed: () {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => SearchScreen()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SearchScreen(),
+                      ),
+                    );
                   },
                   child: Row(children: [
                     Text(

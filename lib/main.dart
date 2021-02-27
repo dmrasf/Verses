@@ -34,9 +34,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             localizationsDelegates: [
               const VersesLocalizationsDelegate(),
-              // 本地化字符串
               GlobalMaterialLocalizations.delegate,
-              // widget 文本默认方向
               GlobalWidgetsLocalizations.delegate,
             ],
             supportedLocales: [

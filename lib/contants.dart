@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show SynchronousFuture;
 
 const double kDefaultPadding = 20.0;
-
 const String urlPoetry = 'https://dmrasf.com:7777/poetry/';
-
+const Map PoetryShowTypes = {'normal': 1, 'pinyin': 2, 'fanti': 3, 'all': 4};
+const Map PairTypes = {'addtime': 1, 'addtimeN': 2, 'author': 3, 'dynasty': 4};
 const Map themeColor = {
   0: {
     //white

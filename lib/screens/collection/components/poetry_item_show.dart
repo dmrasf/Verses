@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Verses/contants.dart';
-import 'package:Verses/screens/home/components/poetry_item_show_card.dart';
-import 'package:Verses/screens/home/components/home_collection_poetry_show_buttons.dart';
+import 'package:Verses/components/poetry_item_show_card.dart';
+import 'package:Verses/screens/collection/components/poetry_item_tool_button.dart';
 
 class PoetryItemShowForCol extends StatelessWidget {
   final Map<String, dynamic> poetry;
