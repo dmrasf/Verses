@@ -1,11 +1,11 @@
+import 'package:Verses/screens/home/components/poetry_card.dart';
 import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
 import 'package:provider/provider.dart';
-import 'package:Verses/screens/home/components/home_communication.dart';
 
 class TodayPoetryAndMore extends StatelessWidget {
   void _press() {
-    keyValue.currentState.getDayPoetry(false);
+    (keyForCard.currentState as PoetryCardState).getDayPoetry(false);
   }
 
   @override

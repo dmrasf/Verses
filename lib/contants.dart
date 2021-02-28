@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show SynchronousFuture;
 
+final keyForCard = GlobalKey();
 const double kDefaultPadding = 20.0;
 const String urlPoetry = 'https://dmrasf.com:7777/poetry/';
 const Map PoetryShowTypes = {'normal': 1, 'pinyin': 2, 'fanti': 3, 'all': 4};

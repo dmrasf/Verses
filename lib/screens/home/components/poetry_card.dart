@@ -38,6 +38,13 @@ class PoetryCardState extends State<PoetryCard> {
     setState(() {});
   }
 
+  void updatePoetryCol(Map<String, dynamic> p) async {
+    if (poetryToString(p) == poetryToString(this._poetry)) {
+      this._isLike = (await isPoetryCollection(this._poetry))[0];
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

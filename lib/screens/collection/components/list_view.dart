@@ -1,4 +1,5 @@
 import 'package:Verses/components/poetry_list_and_item.dart';
+import 'package:Verses/screens/home/components/poetry_card.dart';
 import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,8 @@ class CollectionPoetryListView extends StatelessWidget {
                 ),
                 onDismissed: (direction) {
                   collectionToggle(this.poetries[index]);
+                  (keyForCard.currentState as PoetryCardState)
+                      .updatePoetryCol(this.poetries[index]);
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
                       content: Text(

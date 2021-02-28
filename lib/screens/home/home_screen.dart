@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/screens/home/components/title_and_search.dart';
 import 'package:Verses/screens/home/components/poetry_card.dart';
-import 'package:Verses/screens/home/components/home_communication.dart';
 import 'package:Verses/screens/home/components/today_and_more.dart';
 import 'package:Verses/screens/home/components/icon_theme.dart';
 import 'package:Verses/screens/collection/collection_screen.dart';
 import 'package:Verses/utils.dart';
+import 'package:Verses/contants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               TitleAndSearch(),
               TodayPoetryAndMore(),
-              PoetryCard(key: keyValue),
+              PoetryCard(key: keyForCard),
             ],
           ),
         ),
