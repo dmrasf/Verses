@@ -59,36 +59,40 @@ class _CollectionListViewState extends State<CollectionListView> {
     );
   }
 
+  Widget buildButton(String pt, int themeId) {
+    String title;
+    switch (pt) {
+      case 'addtime':
+        title = VersesLocalizations.of(context).addTime;
+        break;
+      case 'author':
+        title = VersesLocalizations.of(context).author;
+        break;
+      case 'dynasty':
+        title = VersesLocalizations.of(context).dynasty;
+        break;
+    }
+
+    return FlatButton(
+      child: Text(
+        title,
+        style: TextStyle(
+          color: themeColor[themeId]["textColor"],
+          fontSize: this.pairType == PairTypes[pt] ? 15 : 10,
+        ),
+      ),
+      onPressed: () {
+        _updatePairType(PairTypes[pt]);
+      },
+    );
+  }
+
   AppBar _buildAppBar(var themeId) {
     return AppBar(
       actions: [
-        FlatButton(
-          child: Text(
-            VersesLocalizations.of(context).addTime,
-            style: TextStyle(color: themeColor[themeId]["textColor"]),
-          ),
-          onPressed: () {
-            _updatePairType(PairTypes['addtime']);
-          },
-        ),
-        FlatButton(
-          child: Text(
-            VersesLocalizations.of(context).author,
-            style: TextStyle(color: themeColor[themeId]["textColor"]),
-          ),
-          onPressed: () {
-            _updatePairType(PairTypes['author']);
-          },
-        ),
-        FlatButton(
-          child: Text(
-            VersesLocalizations.of(context).dynasty,
-            style: TextStyle(color: themeColor[themeId]["textColor"]),
-          ),
-          onPressed: () {
-            _updatePairType(PairTypes['dynasty']);
-          },
-        ),
+        buildButton('addtime', themeId),
+        buildButton('author', themeId),
+        buildButton('dynasty', themeId),
       ],
     );
   }
