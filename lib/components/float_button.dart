@@ -11,8 +11,8 @@ class FloatButton extends StatelessWidget {
     return GestureDetector(
       onTap: _press,
       child: Container(
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
         child: this.child,
         decoration: BoxDecoration(
           shape: BoxShape.circle,

@@ -16,11 +16,13 @@ class CollectionShare extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('请扫描二维码',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            )),
+        title: Text(
+          VersesLocalizations.of(context).saveCode,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
       ),
       body: Builder(
@@ -41,11 +43,12 @@ class CollectionShare extends StatelessWidget {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.1),
               TextButton(
-                child: Text('保存'),
+                child: Text(
+                  VersesLocalizations.of(context).save,
+                ),
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(themeColor[themeId]['textColor']),
                   backgroundColor: MaterialStateProperty.all(themeColor[themeId]['primaryColor']),
-                  shadowColor: MaterialStateProperty.all(themeColor[themeId]['textColor']),
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                   elevation: MaterialStateProperty.resolveWith((state) {
                     if (state.contains(MaterialState.pressed)) return 0;

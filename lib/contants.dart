@@ -65,6 +65,9 @@ class VersesLocalizations {
       'confirm': 'Confirm',
       'cancel': 'Cancel',
       'noNetWork': 'No NetWork',
+      'save': 'save',
+      'saveCode': 'Scan QR Code',
+      'findpoetry': '查找诗词',
     },
     'zh': {
       'heading': '诗词搜索',
@@ -93,6 +96,9 @@ class VersesLocalizations {
       'confirm': '确认',
       'cancel': '取消',
       'noNetWork': '没有网络连接',
+      'save': '保存',
+      'saveCode': '请扫描二维码',
+      'findpoetry': '查找诗词',
     },
   };
 
@@ -198,6 +204,18 @@ class VersesLocalizations {
 
   String get noNetWork {
     return _localizedValues[locale.languageCode]['noNetWork'];
+  }
+
+  String get save {
+    return _localizedValues[locale.languageCode]['save'];
+  }
+
+  String get saveCode {
+    return _localizedValues[locale.languageCode]['saveCode'];
+  }
+
+  String get findPoetry {
+    return _localizedValues[locale.languageCode]['findPoetry'];
   }
 }
 

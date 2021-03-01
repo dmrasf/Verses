@@ -52,7 +52,7 @@ class _CollectionQrViewState extends State<CollectionQrView> {
           ScanView(
             controller: controller,
             scanAreaScale: .7,
-            scanLineColor: Colors.black,
+            scanLineColor: Colors.white,
             onCapture: (data) {
               getResult(data);
             },
@@ -66,7 +66,7 @@ class _CollectionQrViewState extends State<CollectionQrView> {
                 return MaterialButton(
                     child: Icon(
                       lightIcon,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                     onPressed: () {
                       controller.toggleTorchMode();
@@ -86,7 +86,7 @@ class _CollectionQrViewState extends State<CollectionQrView> {
             child: MaterialButton(
                 child: Icon(
                   Icons.image,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
                 onPressed: () async {
                   final _picker = ImagePicker();
