@@ -343,12 +343,18 @@ Future<List<Map<String, dynamic>>> getCollection() async {
   Directory dir = Directory(dirStr);
 
   // 对每个文件操作
-  List<FileSystemEntity> files = dir.listSync(recursive: true);
+  List<FileSystemEntity> files = dir.listSync(recursive: false);
   for (final f in files) {
-    File file = File(f.path);
-    String poeStr = await file.readAsString();
-    var poetry = jsonDecode(poeStr);
-    poetries.add(poetry);
+    FileSystemEntityType type = await FileSystemEntity.type(f.path);
+    if (type == FileSystemEntityType.file) {
+      File file = File(f.path);
+      String poeStr = await file.readAsString();
+      Map<String, dynamic> poetry = jsonDecode(poeStr);
+      if (poetry.containsKey('题目') &&
+          poetry.containsKey('内容') &&
+          poetry.containsKey('作者') &&
+          poetry.containsKey('朝代')) poetries.add(poetry);
+    }
   }
   return poetries;
 }

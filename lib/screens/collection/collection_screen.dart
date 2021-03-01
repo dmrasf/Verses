@@ -1,10 +1,13 @@
 import 'package:Verses/screens/collection/components/grid_view.dart';
 import 'package:Verses/screens/collection/components/list_view.dart';
 import 'package:Verses/screens/collection/components/poetry_item_show.dart';
+import 'package:Verses/components/float_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:Verses/utils.dart';
 import 'package:Verses/contants.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:Verses/screens/collection/components/collection_view.dart';
 
 class CollectionListView extends StatefulWidget {
   final List<Map<String, dynamic>> poetries;
@@ -54,6 +57,24 @@ class _CollectionListViewState extends State<CollectionListView> {
         return Scaffold(
           appBar: _buildAppBar(themeId),
           body: getCollectionView(themeId),
+          floatingActionButton: FloatButton(
+              Icon(
+                Icons.add,
+                color: themeColor[themeId]['backgroundColor'],
+              ), () async {
+            await [Permission.camera].request();
+            var status = await Permission.camera.status;
+            if (status.isUndetermined) {
+              openAppSettings();
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CollectionQrView(),
+                ),
+              );
+            }
+          }, themeId),
         );
       },
     );

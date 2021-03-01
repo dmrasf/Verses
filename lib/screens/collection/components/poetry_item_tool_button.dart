@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:Verses/contants.dart';
 import 'package:Verses/utils.dart';
 import 'package:Verses/screens/comments/comment_screen.dart';
+import 'package:Verses/screens/collection/components/share_view.dart';
 
 class CollectionPoetryShowButtons extends StatelessWidget {
   final int themeId;
@@ -79,5 +81,13 @@ class CollectionPoetryShowButtons extends StatelessWidget {
   }
 
   void funcFeedback() {}
-  void funcShare() {}
+  void funcShare() {
+    String poeStr = jsonEncode(this.poetry);
+    Navigator.push(
+      cnt,
+      MaterialPageRoute(
+        builder: (cnt) => CollectionShare(poeStr, this.themeId),
+      ),
+    );
+  }
 }

@@ -39,6 +39,10 @@ dependencies:
   lpinyin: ^1.1.1
   device_info: ^1.0.0
   connectivity: ^2.0.2
+  qr_flutter: ^3.1.0
+  image_gallery_saver: ^1.2.2
+  scan: ^0.0.7
+  image_picker: ^0.6.7+22
 
 dev_dependencies:
   flutter_test:
