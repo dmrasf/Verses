@@ -56,7 +56,27 @@ class _CollectionListViewState extends State<CollectionListView> {
         var themeId = themeProvider.value;
         return Scaffold(
           appBar: _buildAppBar(themeId),
-          body: getCollectionView(themeId),
+          body: GestureDetector(
+            child: getCollectionView(themeId),
+            onHorizontalDragEnd: (DragEndDetails details) {
+              String next, last;
+              if (this.pairType == PairTypes['addtime'] || this.pairType == PairTypes['addtimeN']) {
+                next = 'author';
+                last = 'dynasty';
+              } else if (this.pairType == PairTypes['author']) {
+                next = 'dynasty';
+                last = 'addtime';
+              } else {
+                next = 'addtime';
+                last = 'author';
+              }
+              if (details.primaryVelocity > 5) {
+                _updatePairType(PairTypes[last]);
+              } else if (details.primaryVelocity < -5) {
+                _updatePairType(PairTypes[next]);
+              }
+            },
+          ),
           floatingActionButton: FloatButton(
               Icon(
                 Icons.add,
