@@ -37,9 +37,9 @@ class CollectionPoetryShowButtons extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(
-            child: getToolButton(Icons.music_note, this.funcPlay),
-          ),
+          //Expanded(
+          //child: getToolButton(Icons.music_note, this.funcPlay),
+          //),
           Expanded(
             child: getToolButton(Icons.comment, this.funcComment),
           ),

@@ -33,8 +33,13 @@ class _CommentsListViewState extends State<CommentsListView> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     widget.comments.sort((a, b) => b['评论时间'].compareTo(a['评论时间']));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
       child: Column(
@@ -68,7 +73,7 @@ class _CommentsListViewState extends State<CommentsListView> {
                         ? CommentsType.latest
                         : CommentsType.top;
                     if (this.commentsType == CommentsType.top) {
-                      widget.comments.sort((a, b) => a['点赞数'].compareTo(b['点赞数']));
+                      widget.comments.sort((a, b) => b['点赞数'].compareTo(a['点赞数']));
                     } else {
                       widget.comments.sort((a, b) => b['评论时间'].compareTo(a['评论时间']));
                     }

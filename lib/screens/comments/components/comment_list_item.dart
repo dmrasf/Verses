@@ -27,7 +27,7 @@ class _CommentListItemState extends State<CommentListItem> {
   Widget toolButton = Container();
   BuildContext cnt;
   Size size;
-  bool tmpLikes = false;
+  bool tmpLikes;
 
   Future<String> getNewComment(String oldComment) async {
     var controller = TextEditingController();
@@ -158,30 +158,44 @@ class _CommentListItemState extends State<CommentListItem> {
     setState(() {});
   }
 
-  //void changeLike() async {
-  //if (this.tmpLikes) {
-  //changeCommentLikeStatus(
-  //widget.poetryStr,
-  //widget.comment['识别码'],
-  //widget.comment['评论时间'],
-  //'add',
-  //);
-  //} else {
-  //changeCommentLikeStatus(
-  //widget.poetryStr,
-  //widget.comment['识别码'],
-  //widget.comment['评论时间'],
-  //'remove',
-  //);
-  //}
-  //}
+  void changeLike() async {
+    if (this.tmpLikes == widget.comment['isLike']) return;
+    if (this.tmpLikes) {
+      changeCommentLikeStatus(
+        widget.poetryStr,
+        widget.comment['识别码'],
+        widget.comment['评论时间'],
+        'add',
+      );
+    } else {
+      changeCommentLikeStatus(
+        widget.poetryStr,
+        widget.comment['识别码'],
+        widget.comment['评论时间'],
+        'remove',
+      );
+    }
+  }
 
   String getLikesNum() {
+    if (this.tmpLikes == widget.comment['isLike']) return widget.comment['点赞数'].toString();
     if (this.tmpLikes) {
       return (widget.comment['点赞数'] + 1).toString();
     } else {
       return widget.comment['点赞数'] - 1 < 0 ? 0.toString() : (widget.comment['点赞数'] - 1).toString();
     }
+  }
+
+  @override
+  void dispose() {
+    changeLike();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    this.tmpLikes = widget.comment['isLike'] ?? false;
+    super.initState();
   }
 
   @override
