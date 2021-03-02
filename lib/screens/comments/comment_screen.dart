@@ -21,7 +21,7 @@ class _CommentScreenState extends State<CommentScreen> {
   FocusNode focusNode;
 
   void updateComments() async {
-    comments = await getComments(widget.poetryStr);
+    comments = await getComments(widget.poetryStr, widget.phoneID);
     if (comments.length == 0) {
       this.commentsView = Container(
         alignment: Alignment.center,
@@ -34,6 +34,7 @@ class _CommentScreenState extends State<CommentScreen> {
       );
     } else {
       this.commentsView = CommentsListView(
+        key: UniqueKey(),
         comments: comments,
         phoneID: widget.phoneID,
         poetryStr: widget.poetryStr,

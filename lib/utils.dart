@@ -92,9 +92,9 @@ Future<bool> collectionOnline(String poetryStr, String status) async {
   return result;
 }
 
-Future<List<Map<String, dynamic>>> getComments(String poetryStr) async {
+Future<List<Map<String, dynamic>>> getComments(String poetryStr, String phoneID) async {
   var httpClient = HttpClient();
-  String url = urlPoetry + 'getcomments?poetrystr=' + poetryStr;
+  String url = urlPoetry + 'getcomments?poetrystr=' + poetryStr + '&phoneid=' + phoneID;
   bool result = false;
   var searchComments;
   List<Map<String, dynamic>> comments = List<Map<String, dynamic>>();
@@ -203,6 +203,7 @@ Future<bool> changeComment(
 Future<bool> changeCommentLikeStatus(
   String poetryStr,
   String phoneID,
+  String likeID,
   String commentDate,
   String likeStatus,
 ) async {
@@ -211,6 +212,8 @@ Future<bool> changeCommentLikeStatus(
       poetryStr +
       '&phoneid=' +
       phoneID +
+      '&likeid=' +
+      likeID +
       '&commentdate=' +
       commentDate +
       '&likestatus=' +
@@ -266,7 +269,6 @@ Future<Map<String, dynamic>> getPoetry(bool isDay) async {
   var url = urlPoetry + 'randomDay';
   bool result = false;
   var todayPoetry;
-  print(url);
   if (!isDay) {
     url = urlPoetry + 'random';
   }
@@ -320,7 +322,7 @@ Future<List> isPoetryCollection(Map<String, dynamic> poetry) async {
   var bytes = utf8.encode(poetry['作者'] + poetry["内容"] + poetry["朝代"] + poetry["题目"]);
   var digest = sha1.convert(bytes);
 
-  String fileName = dirStr + '/' + digest.toString() + ".json";
+  String fileName = dirStr + '/' + "p" + digest.toString() + ".json";
   File file = File('$fileName');
 
   if (!file.existsSync()) {
@@ -333,7 +335,7 @@ Future<List> isPoetryCollection(Map<String, dynamic> poetry) async {
 String poetryToString(Map<String, dynamic> poetry) {
   var bytes = utf8.encode(poetry['作者'] + poetry["内容"] + poetry["朝代"] + poetry["题目"]);
   var digest = sha1.convert(bytes);
-  return digest.toString();
+  return "p" + digest.toString();
 }
 
 Future<List<Map<String, dynamic>>> getCollection() async {

@@ -164,6 +164,7 @@ class _CommentListItemState extends State<CommentListItem> {
       changeCommentLikeStatus(
         widget.poetryStr,
         widget.comment['识别码'],
+        widget.phoneID,
         widget.comment['评论时间'],
         'add',
       );
@@ -171,6 +172,7 @@ class _CommentListItemState extends State<CommentListItem> {
       changeCommentLikeStatus(
         widget.poetryStr,
         widget.comment['识别码'],
+        widget.phoneID,
         widget.comment['评论时间'],
         'remove',
       );
@@ -184,12 +186,6 @@ class _CommentListItemState extends State<CommentListItem> {
     } else {
       return widget.comment['点赞数'] - 1 < 0 ? 0.toString() : (widget.comment['点赞数'] - 1).toString();
     }
-  }
-
-  @override
-  void dispose() {
-    changeLike();
-    super.dispose();
   }
 
   @override
@@ -219,8 +215,9 @@ class _CommentListItemState extends State<CommentListItem> {
               ),
               Spacer(),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   this.tmpLikes = !this.tmpLikes;
+                  changeLike();
                   setState(() {});
                 },
                 child: Container(

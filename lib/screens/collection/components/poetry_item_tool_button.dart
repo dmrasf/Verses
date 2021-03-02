@@ -54,7 +54,6 @@ class CollectionPoetryShowButtons extends StatelessWidget {
     );
   }
 
-  void funcPlay() {}
   void funcComment() async {
     String phoneID = await getUniqueId();
     showBottomSheet(
@@ -80,7 +79,10 @@ class CollectionPoetryShowButtons extends StatelessWidget {
     );
   }
 
-  void funcFeedback() {}
+  void funcFeedback() {
+    print('feedback');
+  }
+
   void funcShare() {
     String poeStr = jsonEncode(this.poetry);
     Navigator.push(

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:Verses/contants.dart';
+import 'package:Verses/utils.dart';
 import 'package:Verses/screens/comments/components/comment_list_item.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 enum CommentsType { top, latest }
 
 class CommentsListView extends StatefulWidget {
-  final List<Map<String, dynamic>> comments;
+  List<Map<String, dynamic>> comments;
   final String phoneID;
   final int themeId;
   final String poetryStr;
@@ -27,6 +28,7 @@ class CommentsListView extends StatefulWidget {
 
 class _CommentsListViewState extends State<CommentsListView> {
   CommentsType commentsType = CommentsType.latest;
+  bool changePairLock = true;
 
   void changeComment() {
     widget.updateComments();
@@ -68,16 +70,21 @@ class _CommentsListViewState extends State<CommentsListView> {
                     width: 10,
                     color: themeColor[widget.themeId]['textColor'],
                   ),
-                  onTap: () {
-                    this.commentsType = this.commentsType == CommentsType.top
-                        ? CommentsType.latest
-                        : CommentsType.top;
-                    if (this.commentsType == CommentsType.top) {
-                      widget.comments.sort((a, b) => b['点赞数'].compareTo(a['点赞数']));
-                    } else {
-                      widget.comments.sort((a, b) => b['评论时间'].compareTo(a['评论时间']));
+                  onTap: () async {
+                    if (this.changePairLock) {
+                      this.changePairLock = false;
+                      this.commentsType = this.commentsType == CommentsType.top
+                          ? CommentsType.latest
+                          : CommentsType.top;
+                      widget.comments = await getComments(widget.poetryStr, widget.phoneID);
+                      if (this.commentsType == CommentsType.top) {
+                        widget.comments.sort((a, b) => b['点赞数'].compareTo(a['点赞数']));
+                      } else {
+                        widget.comments.sort((a, b) => b['评论时间'].compareTo(a['评论时间']));
+                      }
+                      setState(() {});
+                      this.changePairLock = true;
                     }
-                    setState(() {});
                   },
                 ),
                 Container(width: size.width * 0.02),
@@ -95,6 +102,7 @@ class _CommentsListViewState extends State<CommentsListView> {
                   itemCount: widget.comments.length,
                   itemBuilder: (context, index) {
                     return CommentListItem(
+                      key: UniqueKey(),
                       comment: widget.comments[index],
                       themeId: widget.themeId,
                       phoneID: widget.phoneID,
