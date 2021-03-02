@@ -17,7 +17,6 @@ class _CollectionQrViewState extends State<CollectionQrView> {
 
   void getResult(String result) {
     controller.pause();
-    print(result);
     Map<String, dynamic> poetry = jsonDecode(result);
     if (poetry.containsKey('题目') &&
         poetry.containsKey('内容') &&
@@ -31,6 +30,8 @@ class _CollectionQrViewState extends State<CollectionQrView> {
           contentString: poetry['内容'],
         );
       });
+    } else {
+      controller.resume();
     }
   }
 
