@@ -80,7 +80,114 @@ class CollectionPoetryShowButtons extends StatelessWidget {
   }
 
   void funcFeedback() {
-    print('feedback');
+    TextEditingController controller = TextEditingController();
+    FocusNode focusNode = FocusNode();
+    focusNode.requestFocus();
+    showDialog(
+      context: cnt,
+      builder: (BuildContext context) {
+        Size size = MediaQuery.of(context).size;
+        return Dialog(
+          backgroundColor: themeColor[this.themeId]['primaryColor'],
+          child: Container(
+            height: size.height * 0.4,
+            width: size.width * 0.7,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
+                  color: Colors.red,
+                  child: Text(
+                    '反馈错误',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          '请输入详细信息',
+                          style: TextStyle(
+                            color: themeColor[this.themeId]['backTextColor'],
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 25, right: 25, top: 30),
+                        child: TextField(
+                          controller: controller,
+                          focusNode: focusNode,
+                          style: TextStyle(
+                            color: themeColor[this.themeId]['textColor'],
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          maxLines: 7,
+                          decoration: InputDecoration.collapsed(
+                            hintText: '',
+                          ),
+                        ),
+                        color: Colors.transparent,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                        child: Text(
+                          '取消',
+                          style: TextStyle(
+                            color: themeColor[this.themeId]['textColor'],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onPressed: () => Navigator.of(context).pop(),
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all(
+                            themeColor[this.themeId]['overlayColor'],
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        child: Text(
+                          '提交',
+                          style: TextStyle(
+                            color: themeColor[this.themeId]['textColor'],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onPressed: () {
+                          print(controller.text);
+                          Navigator.of(context).pop();
+                        },
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all(
+                            themeColor[this.themeId]['overlayColor'],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void funcShare() {

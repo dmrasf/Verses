@@ -113,8 +113,13 @@ class _CommentScreenState extends State<CommentScreen> {
                   fontSize: 12,
                   color: themeColor[widget.themeId]['textColor'],
                 ),
-                border: OutlineInputBorder(
+                focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(3)),
+                  borderSide: BorderSide(color: themeColor[widget.themeId]['textColor']),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(3)),
+                  borderSide: BorderSide(color: themeColor[widget.themeId]['textColor']),
                 ),
               ),
             ),

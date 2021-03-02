@@ -16,6 +16,8 @@ const Map themeColor = {
     'textColor': Colors.black,
     'buttonSvg': 'assets/icons/moon.svg',
     'commentBackgroundColor': Color(0xffe9e9eb),
+    'backTextColor': Color(0x30000000),
+    'overlayColor': Color(0x10000000),
   },
   1: {
     //black
@@ -25,6 +27,8 @@ const Map themeColor = {
     'textColor': Colors.white,
     'buttonSvg': 'assets/icons/sun.svg',
     'commentBackgroundColor': Color(0xff161820),
+    'backTextColor': Color(0x30ffffff),
+    'overlayColor': Color(0x10ffffff),
   },
 };
 
