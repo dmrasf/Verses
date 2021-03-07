@@ -10,18 +10,23 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:verses/screens/collection/components/collection_view.dart';
 
 class CollectionListView extends StatefulWidget {
-  final List<Map<String, dynamic>> poetries;
-  CollectionListView({Key key, this.poetries}) : super(key: key);
+  CollectionListView();
   @override
   _CollectionListViewState createState() => _CollectionListViewState();
 }
 
 class _CollectionListViewState extends State<CollectionListView> {
   var pairType;
+  List<Map<String, dynamic>> poetries = [];
 
   void _getPairType() async {
     this.pairType = await SharedPreferencesUtil.getData<int>('pairType') ??
         PairTypes['addtime'];
+    setState(() {});
+  }
+
+  void _getPoetries() async {
+    poetries = await getCollection();
     setState(() {});
   }
 
@@ -48,8 +53,9 @@ class _CollectionListViewState extends State<CollectionListView> {
 
   @override
   void initState() {
-    super.initState();
     _getPairType();
+    _getPoetries();
+    super.initState();
   }
 
   @override
@@ -118,7 +124,7 @@ class _CollectionListViewState extends State<CollectionListView> {
         break;
     }
 
-    return FlatButton(
+    return TextButton(
       child: Text(
         title,
         style: TextStyle(
@@ -143,30 +149,30 @@ class _CollectionListViewState extends State<CollectionListView> {
   }
 
   void updatePoetries(Map<String, dynamic> poetry) {
-    widget.poetries.remove(poetry);
+    poetries.remove(poetry);
     setState(() {});
   }
 
   Widget getCollectionView(var themeId) {
-    if (widget.poetries.length == 0) {
+    if (poetries.length == 0) {
       return Center(child: Image(image: AssetImage('assets/imgs/empty.png')));
     }
     if (this.pairType == PairTypes['author']) {
       return CollectionGridView(
         pairType: '作者',
-        poetries: widget.poetries,
+        poetries: poetries,
         updatePoetriesForParent: this.updatePoetries,
       );
     } else if (this.pairType == PairTypes['dynasty']) {
       return CollectionGridView(
         pairType: '朝代',
-        poetries: widget.poetries,
+        poetries: poetries,
         updatePoetriesForParent: this.updatePoetries,
       );
     } else {
-      var tmpPoetries = widget.poetries;
+      var tmpPoetries = poetries;
       if (this.pairType == PairTypes['addtimeN']) {
-        tmpPoetries = widget.poetries.reversed.toList();
+        tmpPoetries = poetries.reversed.toList();
       }
       return CollectionPoetryListView(
         poetries: tmpPoetries,

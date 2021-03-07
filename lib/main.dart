@@ -8,8 +8,7 @@ import 'package:flutter/services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  bool isDark = false;
-  isDark = await SharedPreferencesUtil.getData<bool>('theme') ?? false;
+  bool isDark = await SharedPreferencesUtil.getData<bool>('theme') ?? false;
   runApp(MyApp(isDark));
 }
 

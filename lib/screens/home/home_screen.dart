@@ -33,7 +33,6 @@ class HomeScreen extends StatelessWidget {
       leading: IconButton(
         iconSize: 8,
         onPressed: () async {
-          List<Map<String, dynamic>> poetries = await getCollection();
           Navigator.push(
             context,
             PageRouteBuilder(
@@ -52,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                       curve: Curves.fastOutSlowIn,
                     ),
                   ),
-                  child: CollectionListView(poetries: poetries),
+                  child: CollectionListView(),
                 );
               },
             ),

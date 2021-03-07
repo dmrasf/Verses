@@ -11,7 +11,7 @@ import 'package:device_info/device_info.dart';
 List<InlineSpan> getContent(Map<String, dynamic> poetry, {int poetryShowType}) {
   String content = poetry["内容"];
   String pattern = "。：？；！";
-  List<String> lines = List<String>();
+  List<String> lines = [];
   String line = "";
 
   for (var i = 0, len = content.length; i < len; ++i) {
@@ -23,9 +23,9 @@ List<InlineSpan> getContent(Map<String, dynamic> poetry, {int poetryShowType}) {
     }
   }
 
-  List<InlineSpan> contents = List<InlineSpan>();
+  List<InlineSpan> contents = [];
   if (poetryShowType == PoetryShowTypes['pinyin']) {
-    List<String> pinyinLines = List<String>();
+    List<String> pinyinLines = [];
     for (var i = 0; i < lines.length; i++) {
       pinyinLines.add(PinyinHelper.getPinyinE(lines[i],
           separator: ' ', defPinyin: ' ', format: PinyinFormat.WITH_TONE_MARK));
@@ -40,11 +40,11 @@ List<InlineSpan> getContent(Map<String, dynamic> poetry, {int poetryShowType}) {
     }
   } else if (poetryShowType == PoetryShowTypes['fanti'] ||
       poetryShowType == PoetryShowTypes['all']) {
-    List<String> fantiLines = List<String>();
+    List<String> fantiLines = [];
     for (var i = 0; i < lines.length; i++) {
       fantiLines.add(ChineseHelper.convertToTraditionalChinese(lines[i]));
     }
-    List<String> pinyinLines = List<String>();
+    List<String> pinyinLines = [];
     for (var i = 0; i < lines.length; i++) {
       pinyinLines.add(PinyinHelper.getPinyinE(lines[i],
           separator: ' ', defPinyin: ' ', format: PinyinFormat.WITH_TONE_MARK));
@@ -71,7 +71,8 @@ List<InlineSpan> getContent(Map<String, dynamic> poetry, {int poetryShowType}) {
 
 Future<bool> collectionOnline(String poetryStr, String status) async {
   var httpClient = HttpClient();
-  String url = urlPoetry + 'getlikes?poetrystr=' + poetryStr + '&status=' + status;
+  String url =
+      urlPoetry + 'getlikes?poetrystr=' + poetryStr + '&status=' + status;
   bool result = false;
   var poetryCollectionNumbers;
 
@@ -92,12 +93,14 @@ Future<bool> collectionOnline(String poetryStr, String status) async {
   return result;
 }
 
-Future<List<Map<String, dynamic>>> getComments(String poetryStr, String phoneID) async {
+Future<List<Map<String, dynamic>>> getComments(
+    String poetryStr, String phoneID) async {
   var httpClient = HttpClient();
-  String url = urlPoetry + 'getcomments?poetrystr=' + poetryStr + '&phoneid=' + phoneID;
+  String url =
+      urlPoetry + 'getcomments?poetrystr=' + poetryStr + '&phoneid=' + phoneID;
   bool result = false;
   var searchComments;
-  List<Map<String, dynamic>> comments = List<Map<String, dynamic>>();
+  List<Map<String, dynamic>> comments = [];
 
   try {
     var request = await httpClient.getUrl(Uri.parse(url));
@@ -125,7 +128,8 @@ Future<List<Map<String, dynamic>>> getComments(String poetryStr, String phoneID)
   return comments;
 }
 
-Future<bool> addComment(String poetryStr, String phoneID, String comment) async {
+Future<bool> addComment(
+    String poetryStr, String phoneID, String comment) async {
   String url = urlPoetry +
       'getcomments?poetrystr=' +
       poetryStr +
@@ -237,7 +241,7 @@ Future<List<Map<String, dynamic>>> getPoetries(
   if (block.length > 0) url = url + 'block=' + block + '&';
   if (url[url.length - 1] == '&') url = url.substring(0, url.length - 1);
 
-  List<Map<String, dynamic>> poetries = List<Map<String, dynamic>>();
+  List<Map<String, dynamic>> poetries = [];
   bool result = false;
   var searchPoetry;
 
@@ -319,7 +323,8 @@ Future<List> isPoetryCollection(Map<String, dynamic> poetry) async {
   // 读取保存的文件
   String dirStr = (await getExternalStorageDirectory()).path;
 
-  var bytes = utf8.encode(poetry['作者'] + poetry["内容"] + poetry["朝代"] + poetry["题目"]);
+  var bytes =
+      utf8.encode(poetry['作者'] + poetry["内容"] + poetry["朝代"] + poetry["题目"]);
   var digest = sha1.convert(bytes);
 
   String fileName = dirStr + '/' + "p" + digest.toString() + ".json";
@@ -333,7 +338,8 @@ Future<List> isPoetryCollection(Map<String, dynamic> poetry) async {
 }
 
 String poetryToString(Map<String, dynamic> poetry) {
-  var bytes = utf8.encode(poetry['作者'] + poetry["内容"] + poetry["朝代"] + poetry["题目"]);
+  var bytes =
+      utf8.encode(poetry['作者'] + poetry["内容"] + poetry["朝代"] + poetry["题目"]);
   var digest = sha1.convert(bytes);
   return "p" + digest.toString();
 }
