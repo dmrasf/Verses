@@ -5,30 +5,38 @@ import 'package:verses/contants.dart';
 class SearchPoetryShowLikeButton extends StatefulWidget {
   final Map<String, dynamic> poetry;
   final int themeId;
-  SearchPoetryShowLikeButton({Key key, this.poetry, this.themeId}) : super(key: key);
+  SearchPoetryShowLikeButton({
+    Key key,
+    this.poetry,
+    this.themeId,
+  }) : super(key: key);
   @override
-  _SearchPoetryShowLikeButtonState createState() => _SearchPoetryShowLikeButtonState();
+  _SearchPoetryShowLikeButtonState createState() =>
+      _SearchPoetryShowLikeButtonState();
 }
 
-class _SearchPoetryShowLikeButtonState extends State<SearchPoetryShowLikeButton> {
+class _SearchPoetryShowLikeButtonState
+    extends State<SearchPoetryShowLikeButton> {
   bool isLike = false;
-  bool tmpIsLike;
+  bool tmpIsLike = false;
 
   @override
   void initState() {
-    super.initState();
     _init();
+    super.initState();
   }
 
   void _init() async {
     this.isLike = (await isPoetryCollection(widget.poetry))[0];
-    this.tmpIsLike = this.isLike;
-    setState(() {});
+    setState(() {
+      this.tmpIsLike = this.isLike;
+    });
   }
 
   void _press() async {
-    this.tmpIsLike = this.tmpIsLike ? false : true;
-    setState(() {});
+    setState(() {
+      this.tmpIsLike = this.tmpIsLike ? false : true;
+    });
   }
 
   @override
@@ -51,7 +59,9 @@ class _SearchPoetryShowLikeButtonState extends State<SearchPoetryShowLikeButton>
         child: tmpIsLike ? Text('Unlike') : Text('Like'),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          color: tmpIsLike ? Colors.red : themeColor[widget.themeId]['primaryColor'],
+          color: tmpIsLike
+              ? Colors.red
+              : themeColor[widget.themeId]['primaryColor'],
         ),
       ),
       onTap: _press,

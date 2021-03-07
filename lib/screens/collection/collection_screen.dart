@@ -20,7 +20,8 @@ class _CollectionListViewState extends State<CollectionListView> {
   var pairType;
 
   void _getPairType() async {
-    this.pairType = await SharedPreferencesUtil.getData<int>('pairType') ?? PairTypes['addtime'];
+    this.pairType = await SharedPreferencesUtil.getData<int>('pairType') ??
+        PairTypes['addtime'];
     setState(() {});
   }
 
@@ -28,10 +29,12 @@ class _CollectionListViewState extends State<CollectionListView> {
     if (pt == PairTypes['addtime']) {
       if (this.pairType == PairTypes['addtime']) {
         this.pairType = PairTypes['addtimeN'];
-        await SharedPreferencesUtil.setData<int>('pairType', PairTypes['addtimeN']);
+        await SharedPreferencesUtil.setData<int>(
+            'pairType', PairTypes['addtimeN']);
       } else if (this.pairType == PairTypes['addtimeN']) {
         this.pairType = PairTypes['addtime'];
-        await SharedPreferencesUtil.setData<int>('pairType', PairTypes['addtime']);
+        await SharedPreferencesUtil.setData<int>(
+            'pairType', PairTypes['addtime']);
       } else {
         this.pairType = pt;
         await SharedPreferencesUtil.setData<int>('pairType', this.pairType);
@@ -60,7 +63,8 @@ class _CollectionListViewState extends State<CollectionListView> {
             child: getCollectionView(themeId),
             onHorizontalDragEnd: (DragEndDetails details) {
               String next, last;
-              if (this.pairType == PairTypes['addtime'] || this.pairType == PairTypes['addtimeN']) {
+              if (this.pairType == PairTypes['addtime'] ||
+                  this.pairType == PairTypes['addtimeN']) {
                 next = 'author';
                 last = 'dynasty';
               } else if (this.pairType == PairTypes['author']) {
@@ -84,7 +88,7 @@ class _CollectionListViewState extends State<CollectionListView> {
               ), () async {
             await [Permission.camera].request();
             var status = await Permission.camera.status;
-            if (status.isUndetermined) {
+            if (status.isDenied) {
               openAppSettings();
             } else {
               Navigator.push(

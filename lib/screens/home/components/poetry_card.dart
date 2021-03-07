@@ -101,10 +101,14 @@ class PoetryCardState extends State<PoetryCard> {
                     Spacer(),
                     IconButton(
                       onPressed: _pressCol,
-                      icon: SvgPicture.asset("assets/icons/heart.svg",
-                          height: 20,
-                          width: 20,
-                          color: _isLike ? Colors.red : themeColor[themeId]['backgroundColor']),
+                      icon: SvgPicture.asset(
+                        "assets/icons/heart.svg",
+                        height: 20,
+                        width: 20,
+                        color: _isLike
+                            ? Colors.red
+                            : themeColor[themeId]['backgroundColor'],
+                      ),
                     ),
                   ],
                 ),

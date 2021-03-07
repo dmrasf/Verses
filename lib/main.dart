@@ -6,26 +6,29 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  bool isDark = await SharedPreferencesUtil.getData<bool>('theme') ?? false;
-  runApp(MyApp(isDark: isDark));
+  bool isDark = false;
+  isDark = await SharedPreferencesUtil.getData<bool>('theme') ?? false;
+  runApp(MyApp(isDark));
 }
 
 class MyApp extends StatelessWidget {
   final bool isDark;
-  final SystemUiOverlayStyle statusBarStyle =
-      SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-
-  MyApp({Key key, this.isDark}) : super(key: key);
+  MyApp(this.isDark);
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(statusBarStyle);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
+    );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (context) => ThemeProvide(isDark ? 1 : 0)),
+          create: (context) => ThemeProvide(isDark ? 1 : 0),
+        ),
       ],
       child: Consumer<ThemeProvide>(
         builder: (context, themeProvider, child) {

@@ -27,9 +27,11 @@ class PoetryItemShowForCol extends StatelessWidget {
           body: Column(
             children: [
               Expanded(
-                child: PoetryItemShowCard(poetry: this.poetry, themeId: themeId),
+                child:
+                    PoetryItemShowCard(poetry: this.poetry, themeId: themeId),
               ),
-              CollectionPoetryShowButtons(poetry: this.poetry, themeId: themeId),
+              CollectionPoetryShowButtons(
+                  poetry: this.poetry, themeId: themeId),
             ],
           ),
           backgroundColor: themeColor[themeId]['backgroundColor'],

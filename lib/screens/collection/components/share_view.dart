@@ -47,8 +47,10 @@ class CollectionShare extends StatelessWidget {
                   VersesLocalizations.of(context).save,
                 ),
                 style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(themeColor[themeId]['textColor']),
-                  backgroundColor: MaterialStateProperty.all(themeColor[themeId]['primaryColor']),
+                  foregroundColor: MaterialStateProperty.all(
+                      themeColor[themeId]['textColor']),
+                  backgroundColor: MaterialStateProperty.all(
+                      themeColor[themeId]['primaryColor']),
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                   elevation: MaterialStateProperty.resolveWith((state) {
                     if (state.contains(MaterialState.pressed)) return 0;
@@ -76,15 +78,18 @@ class CollectionShare extends StatelessWidget {
   Future saveQrCode(BuildContext cnt) async {
     await [Permission.storage].request();
     var status = await Permission.storage.status;
-    if (status.isUndetermined) {
+    if (status.isDenied) {
       openAppSettings();
     } else {
       bool isSuccess = false;
       try {
-        RenderRepaintBoundary boundary = keyForQrCode.currentContext.findRenderObject();
+        RenderRepaintBoundary boundary =
+            keyForQrCode.currentContext.findRenderObject();
         ui.Image image = await boundary.toImage();
-        ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-        final result = await ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
+        ByteData byteData =
+            await image.toByteData(format: ui.ImageByteFormat.png);
+        final result =
+            await ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
         isSuccess = result['isSuccess'];
       } catch (e) {
         print(e);
