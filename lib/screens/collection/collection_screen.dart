@@ -1,13 +1,13 @@
-import 'package:Verses/screens/collection/components/grid_view.dart';
-import 'package:Verses/screens/collection/components/list_view.dart';
-import 'package:Verses/screens/collection/components/poetry_item_show.dart';
-import 'package:Verses/components/float_button.dart';
+import 'package:verses/screens/collection/components/grid_view.dart';
+import 'package:verses/screens/collection/components/list_view.dart';
+import 'package:verses/screens/collection/components/poetry_item_show.dart';
+import 'package:verses/components/float_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:Verses/utils.dart';
-import 'package:Verses/contants.dart';
+import 'package:verses/utils.dart';
+import 'package:verses/contants.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:Verses/screens/collection/components/collection_view.dart';
+import 'package:verses/screens/collection/components/collection_view.dart';
 
 class CollectionListView extends StatefulWidget {
   final List<Map<String, dynamic>> poetries;

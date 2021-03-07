@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:Verses/contants.dart';
-import 'package:Verses/utils.dart';
-import 'package:Verses/screens/comments/components/comment_list_item.dart';
+import 'package:verses/contants.dart';
+import 'package:verses/utils.dart';
+import 'package:verses/screens/comments/components/comment_list_item.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 enum CommentsType { top, latest }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:Verses/screens/collection/components/poetry_item_show.dart';
-import 'package:Verses/screens/collection/components/list_view.dart';
+import 'package:verses/screens/collection/components/poetry_item_show.dart';
+import 'package:verses/screens/collection/components/list_view.dart';
 import 'package:provider/provider.dart';
-import 'package:Verses/contants.dart';
-import 'package:Verses/utils.dart';
+import 'package:verses/contants.dart';
+import 'package:verses/utils.dart';
 
 class CollectionGridItemView extends StatelessWidget {
   final String pairTypeKey;

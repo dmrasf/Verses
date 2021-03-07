@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:Verses/contants.dart';
-import 'package:Verses/utils.dart';
-import 'package:Verses/screens/comments/comment_screen.dart';
-import 'package:Verses/screens/collection/components/share_view.dart';
+import 'package:verses/contants.dart';
+import 'package:verses/utils.dart';
+import 'package:verses/screens/comments/comment_screen.dart';
+import 'package:verses/screens/collection/components/share_view.dart';
 
 class CollectionPoetryShowButtons extends StatelessWidget {
   final int themeId;

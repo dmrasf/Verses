@@ -5,7 +5,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lpinyin/lpinyin.dart';
-import 'package:Verses/contants.dart';
+import 'package:verses/contants.dart';
 import 'package:device_info/device_info.dart';
 
 List<InlineSpan> getContent(Map<String, dynamic> poetry, {int poetryShowType}) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Verses/screens/collection/components/grid_view_item.dart';
+import 'package:verses/screens/collection/components/grid_view_item.dart';
 
 class CollectionGridView extends StatefulWidget {
   final String pairType;

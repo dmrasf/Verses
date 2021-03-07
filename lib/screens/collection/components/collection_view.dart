@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scan/scan.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:Verses/screens/result/result_screen.dart';
+import 'package:verses/screens/result/result_screen.dart';
 import 'dart:convert';
 
 class CollectionQrView extends StatefulWidget {

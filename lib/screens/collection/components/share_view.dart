@@ -1,4 +1,4 @@
-import 'package:Verses/contants.dart';
+import 'package:verses/contants.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';

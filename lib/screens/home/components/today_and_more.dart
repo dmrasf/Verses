@@ -1,6 +1,6 @@
-import 'package:Verses/screens/home/components/poetry_card.dart';
+import 'package:verses/screens/home/components/poetry_card.dart';
 import 'package:flutter/material.dart';
-import 'package:Verses/contants.dart';
+import 'package:verses/contants.dart';
 import 'package:provider/provider.dart';
 
 class TodayPoetryAndMore extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Verses/contants.dart';
+import 'package:verses/contants.dart';
 
 class FloatButton extends StatelessWidget {
   final Widget child;

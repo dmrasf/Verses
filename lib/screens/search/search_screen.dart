@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:Verses/contants.dart';
-import 'package:Verses/screens/result/result_screen.dart';
-import 'package:Verses/screens/search/components/search_and_poetry.dart';
+import 'package:verses/contants.dart';
+import 'package:verses/screens/result/result_screen.dart';
+import 'package:verses/screens/search/components/search_and_poetry.dart';
 import 'package:provider/provider.dart';
 import 'package:connectivity/connectivity.dart';
 
@@ -20,7 +20,6 @@ class SearchScreen extends StatelessWidget {
       builder: (context, themeProvider, child) {
         var themeId = themeProvider.value;
         return Scaffold(
-          resizeToAvoidBottomPadding: false,
           appBar: AppBar(),
           body: Builder(
             builder: (context) {

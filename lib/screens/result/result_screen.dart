@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:Verses/components/poetry_list_and_item.dart';
-import 'package:Verses/screens/result/components/poetry_item_show.dart';
-import 'package:Verses/screens/result/components/search_remind.dart';
-import 'package:Verses/utils.dart';
+import 'package:verses/components/poetry_list_and_item.dart';
+import 'package:verses/screens/result/components/poetry_item_show.dart';
+import 'package:verses/screens/result/components/search_remind.dart';
+import 'package:verses/utils.dart';
 
 class ResultScreen extends StatefulWidget {
   final String authorString;

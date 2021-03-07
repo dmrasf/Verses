@@ -1,9 +1,9 @@
-import 'package:Verses/components/poetry_list_and_item.dart';
-import 'package:Verses/screens/home/components/poetry_card.dart';
+import 'package:verses/components/poetry_list_and_item.dart';
+import 'package:verses/screens/home/components/poetry_card.dart';
 import 'package:flutter/material.dart';
-import 'package:Verses/contants.dart';
+import 'package:verses/contants.dart';
 import 'package:provider/provider.dart';
-import 'package:Verses/utils.dart';
+import 'package:verses/utils.dart';
 
 class CollectionPoetryListView extends StatelessWidget {
   final List<Map<String, dynamic>> poetries;

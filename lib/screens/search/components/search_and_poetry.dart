@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:Verses/contants.dart';
-import 'package:Verses/screens/search/components/text_and_drop_container.dart';
+import 'package:verses/contants.dart';
+import 'package:verses/screens/search/components/text_and_drop_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 

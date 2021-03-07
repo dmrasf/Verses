@@ -1,5 +1,5 @@
-import 'package:Verses/contants.dart';
-import 'package:Verses/utils.dart';
+import 'package:verses/contants.dart';
+import 'package:verses/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';

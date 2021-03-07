@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:Verses/utils.dart';
-import 'package:Verses/contants.dart';
+import 'package:verses/utils.dart';
+import 'package:verses/contants.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:io';
